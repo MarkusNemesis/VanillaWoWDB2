@@ -97,56 +97,6 @@ switch($_GET['data'])
 		}
 		echo '$WowheadTalentCalculator.registerClass('.$class.', '.php2js($p_arr).')';
 		break;
-	case 'glyphs':
-		if(!$g_glyphs = load_cache(25, 'x'))
-		{
-			/*
-				name - Имя вещи
-				description - Тултип спелла
-				icon - Иконка вещи
-			*/
-
-			require_once('includes/allspells.php');
-
-			$glyphs = array();
-
-			$glyphs = $DB->select('
-					SELECT it.entry, it.name, it.subclass, it.spellid_1 AS spellid, i.iconname, gp.typeflags
-					{, l.name_loc?d AS name_loc }
-					FROM ?_glyphproperties gp, ?_spell s, ?_icons i, item_template it
-					{ LEFT JOIN locales_item l ON (l.entry = it.entry AND ?) }
-					WHERE
-						it.class = 16
-						AND it.displayid = i.id
-						AND it.spellid_1 = s.spellid
-						AND s.effect1id = ?d
-						AND gp.id = s.effect1MiscValue
-				',
-				$_SESSION['locale'] > 0 ? $_SESSION['locale'] : DBSIMPLE_SKIP,
-				$_SESSION['locale'] > 0 ? 1 : DBSIMPLE_SKIP,
-				74 // SPELL_EFFECT_APPLY_GLYPH
-				
-			);
-			$g_glyphs = array();
-			foreach($glyphs as $glyph)
-			{
-				$name = localizedName($glyph);
-				if($_SESSION['locale'] == 0)
-					$name = str_replace(LOCALE_GLYPH_OF, '', $name);
-				$g_glyphs[$glyph['entry']] = array(
-					'name'			=> (string)$name,
-					'description'	=> (string)spell_desc($glyph['spellid']),
-					'icon'			=> (string)$glyph['iconname'],
-					'type'			=> (int)($glyph['typeflags']&1 ? 2 : 1),	// 1 - Большой символ, 2 - Малый символ
-					'classs'		=> (int)$glyph['subclass'],
-					'skill'			=> (int)2  // Skill???
-				);
-			}
-
-			save_cache(25, 'x', $g_glyphs);
-		}
-		echo 'var g_glyphs='.php2js($g_glyphs);
-		break;
 	case 'talent-icon':
 		$iconname = strtolower($_GET['icon']);
 		if(!$DB->selectCell('SELECT 1 FROM ?_spellicons WHERE iconname = ?', $iconname))

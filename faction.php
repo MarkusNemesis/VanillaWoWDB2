@@ -66,6 +66,7 @@ if(!$faction = load_cache(18, $cache_key))
 			$item_cols[2],
 			$id
 		);
+		$item_rows = sanitiseitemrows($item_rows);
 		if($item_rows)
 		{
 			$faction['items'] = array();

@@ -8,13 +8,13 @@ require_once('includes/allquests.php');
 
 // Массивы с названиями столбцов, необходимых для различных уровней вызова функций
 // для allitems($level=0) - соответствия номер-иконка
-$item_cols[0] = array('entry', 'iconname', 'quality', 'name');
+$item_cols[0] = array('entry', 'patch', 'iconname', 'quality', 'name');
 // для allitems($level=1) - ajax, тултип
-$item_cols[1] = array('entry', 'name', 'quality', 'iconname', 'maxcount', 'bonding', 'startquest', 'Map', 'ContainerSlots', 'class', 'InventoryType', 'subclass', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'armor', 'block', 'stat_type1', 'stat_type2', 'stat_type3', 'stat_type4', 'stat_type5', 'stat_type6', 'stat_type7', 'stat_type8', 'stat_type9', 'stat_type10', 'stat_value1', 'stat_value2', 'stat_value3', 'stat_value4', 'stat_value5', 'stat_value6', 'stat_value7', 'stat_value8', 'stat_value9', 'stat_value10', 'holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res', 'RandomProperty', 'MaxDurability', 'AllowableClass', 'RequiredLevel', 'RequiredSkill', 'requiredspell', 'RequiredReputationFaction', 'RequiredReputationRank', 'spellid_1', 'spellid_2', 'spellid_3', 'spellid_4', 'spellid_5', 'spelltrigger_1', 'spelltrigger_2', 'spelltrigger_3', 'spelltrigger_4', 'spelltrigger_5', 'description', 'PageText', 'BagFamily', 'RequiredSkillRank');
+$item_cols[1] = array('entry', 'patch', 'name', 'quality', 'iconname', 'maxcount', 'bonding', 'startquest', 'Map', 'ContainerSlots', 'class', 'InventoryType', 'subclass', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'armor', 'block', 'stat_type1', 'stat_type2', 'stat_type3', 'stat_type4', 'stat_type5', 'stat_type6', 'stat_type7', 'stat_type8', 'stat_type9', 'stat_type10', 'stat_value1', 'stat_value2', 'stat_value3', 'stat_value4', 'stat_value5', 'stat_value6', 'stat_value7', 'stat_value8', 'stat_value9', 'stat_value10', 'holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res', 'RandomProperty', 'MaxDurability', 'AllowableClass', 'RequiredLevel', 'RequiredSkill', 'requiredspell', 'RequiredReputationFaction', 'RequiredReputationRank', 'spellid_1', 'spellid_2', 'spellid_3', 'spellid_4', 'spellid_5', 'spelltrigger_1', 'spelltrigger_2', 'spelltrigger_3', 'spelltrigger_4', 'spelltrigger_5', 'description', 'PageText', 'BagFamily', 'RequiredSkillRank');
 // для iteminfo($level=0) - строчки списка
-$item_cols[2] = array('name', 'quality', 'iconname', 'InventoryType', 'ItemLevel', 'RequiredLevel', 'class', 'subclass', 'stackable', 'BuyPrice', 'armor', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'ContainerSlots');
+$item_cols[2] = array('name', 'patch', 'quality', 'iconname', 'InventoryType', 'ItemLevel', 'RequiredLevel', 'class', 'subclass', 'stackable', 'BuyPrice', 'armor', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'ContainerSlots');
 // для iteminfo($level=1)
-$item_cols[3] = array('entry', 'name', 'quality', 'iconname', 'maxcount', 'bonding', 'startquest', 'Map', 'ContainerSlots', 'class', 'InventoryType', 'subclass', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'armor', 'block', 'stat_type1', 'stat_type2', 'stat_type3', 'stat_type4', 'stat_type5', 'stat_type6', 'stat_type7', 'stat_type8', 'stat_type9', 'stat_type10', 'stat_value1', 'stat_value2', 'stat_value3', 'stat_value4', 'stat_value5', 'stat_value6', 'stat_value7', 'stat_value8', 'stat_value9', 'stat_value10', 'holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res', 'RandomProperty', 'MaxDurability', 'AllowableClass', 'RequiredLevel', 'RequiredSkill', 'requiredspell', 'RequiredReputationFaction', 'RequiredReputationRank', 'spellid_1', 'spellid_2', 'spellid_3', 'spellid_4', 'spellid_5', 'spelltrigger_1', 'spelltrigger_2', 'spelltrigger_3', 'spelltrigger_4', 'spelltrigger_5', 'description', 'PageText', 'BagFamily', 'RequiredSkillRank', 'ItemLevel', 'stackable', 'BuyPrice', 'DisenchantID', 'SellPrice', 'displayid');
+$item_cols[3] = array('entry', 'patch', 'name', 'quality', 'iconname', 'maxcount', 'bonding', 'startquest', 'Map', 'ContainerSlots', 'class', 'InventoryType', 'subclass', 'dmg_type1', 'dmg_min1', 'dmg_max1', 'delay', 'dmg_type2', 'dmg_min2', 'dmg_max2', 'armor', 'block', 'stat_type1', 'stat_type2', 'stat_type3', 'stat_type4', 'stat_type5', 'stat_type6', 'stat_type7', 'stat_type8', 'stat_type9', 'stat_type10', 'stat_value1', 'stat_value2', 'stat_value3', 'stat_value4', 'stat_value5', 'stat_value6', 'stat_value7', 'stat_value8', 'stat_value9', 'stat_value10', 'holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res', 'RandomProperty', 'MaxDurability', 'AllowableClass', 'RequiredLevel', 'RequiredSkill', 'requiredspell', 'RequiredReputationFaction', 'RequiredReputationRank', 'spellid_1', 'spellid_2', 'spellid_3', 'spellid_4', 'spellid_5', 'spelltrigger_1', 'spelltrigger_2', 'spelltrigger_3', 'spelltrigger_4', 'spelltrigger_5', 'description', 'PageText', 'BagFamily', 'RequiredSkillRank', 'ItemLevel', 'stackable', 'BuyPrice', 'DisenchantID', 'SellPrice', 'displayid');
 
 $resz = array('holy_res', 'fire_res', 'nature_res', 'frost_res', 'shadow_res', 'arcane_res');
 $resz_desc = array (LOCALE_HOLY_RESISTANCE, LOCALE_FIRE_RESISTANCE, LOCALE_NATURE_RESISTANCE, LOCALE_FROST_RESISTANCE, LOCALE_SHADOW_RESISTANCE, LOCALE_ARCANE_RESISTANCE);
@@ -670,5 +670,44 @@ function iteminfo($id, $level = 0)
 	);
 	return iteminfo2($row, $level);
 }
+
+// Sanitise item rows for progressive data
+/**
+ * @param type $rows
+ * @return type array of rows
+ */
+ function sanitiseitemrows($rows)
+ {
+		echo "Sanitising!";
+	global $AoWoWconf;
+	if (empty($rows))
+		return $rows;
+	 // Remove items that are of a higher patch
+	foreach ($rows as $i => $row) {
+		// Check if the patch number is valid
+		if ($row['patch'] > $AoWoWconf['patch'])
+		{
+			echo "Too new! - Removing " . $row['name'] . ' from patch ' . $row['patch'] . ' From index ' . $i . "! <br>";
+			unset($rows[$i]);
+		}
+	};
+	// Check for duplicates, and if there are, find the highest patched and delete the others.
+	foreach ($rows as $i => $row) {
+		foreach ($rows as $j => $jrow) {
+			if ($row['entry'] == $jrow['entry']) {
+				if ($row['patch'] > $jrow['patch']) {
+					echo "Too old! - Removing " . $jrow['name'] . ' from patch ' . $jrow['patch'] . ' From index ' . $j . "! <br>";
+					unset($rows[$j]);
+				}
+			}
+		}
+	};
+	/*
+	foreach ($rows as $i => $row) {
+		echo "Remaining Items: " . $row['name'] . " of patch " . $row['patch'] . " at index " . $i . "<br>";
+	}
+	*/
+	return array_values($rows);
+ }
 
 ?>

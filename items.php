@@ -36,7 +36,7 @@ if(!$items = load_cache(7, $cache_key))
 		isset($type) ? $type : DBSIMPLE_SKIP,
 		($AoWoWconf['limit']!=0)? $AoWoWconf['limit']: DBSIMPLE_SKIP
 	);
-
+	$rows = sanitiseitemrows($rows);
 	$items = array();
 	foreach($rows as $row)
 		$items[] = iteminfo2($row);

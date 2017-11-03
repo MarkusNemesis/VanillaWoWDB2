@@ -30,7 +30,7 @@ function add_loot(&$loot, $newloot)
 			$loot[$exist[$item['entry']]]['mincount'] = min($loot[$exist[$item['entry']]]['mincount'], $newitem['mincount']);
 			$loot[$exist[$item['entry']]]['maxcount'] = max($loot[$exist[$item['entry']]]['maxcount'], $newitem['maxcount']);
 			$loot[$exist[$item['entry']]]['percent'] += $newitem['percent'];
-			$loot[$exist[$item['entry']]]['group'] = 0;
+			//$loot[$exist[$item['entry']]]['group'] = 0;
 		}
 		else
 			$loot[] = $newitem;
@@ -63,9 +63,12 @@ function loot($table, $lootid, $mod = 1)
 		$lootid,
 		($AoWoWconf['limit']!=0)? $AoWoWconf['limit']: DBSIMPLE_SKIP
 	);
-
+	// Check patch validity
+	$rows = sanitiseitemrows($rows);
+	
 	$last_group = 0;
 	$last_group_equal_chance = 100;
+	
 	// Перебираем
 	foreach($rows as $row)
 	{
@@ -80,7 +83,8 @@ function loot($table, $lootid, $mod = 1)
 				add_loot($loot, array(array_merge(array(
 						'percent'  => max(abs($row['ChanceOrQuestChance']) * $mod, 0)*sign($row['ChanceOrQuestChance']),
 						'mincount' => $row['mincountOrRef'],
-						'maxcount' => $row['maxcount']
+						'maxcount' => $row['maxcount'],
+						'group' => $row['groupid']
 					),
 					iteminfo2($row, 0)
 				)));
@@ -112,6 +116,7 @@ function loot($table, $lootid, $mod = 1)
 							'percent'  => $chance * $mod,
 							'mincount' => $row['mincountOrRef'],
 							'maxcount' => $row['maxcount'],
+							'group' => $row['groupid']
 						),
 						iteminfo2($row, 0)
 					)));
@@ -122,7 +127,8 @@ function loot($table, $lootid, $mod = 1)
 				$groups[$last_group][] = array_merge(array(
 						'mincount' => $row['mincountOrRef'],
 						'maxcount' => $row['maxcount'],
-						'groupchance'=>$last_group_equal_chance * $mod
+						'groupchance'=>$last_group_equal_chance * $mod,
+						'group' => $row['groupid']
 					),
 					iteminfo2($row, 0)
 				);

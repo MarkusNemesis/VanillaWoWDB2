@@ -4324,32 +4324,31 @@ Listview.extraCols = {
 			return b
 		}
 	},
-	percent: {
-		id: "percent",
-		name: "%",
-		width: "10%",
-		value: "percent",
-		compute: function (a, b) {
-			if (a.count == -1) {
-				return "??"
-			}
-			if (a.percent >= 1.95) {
-				return a.percent.toFixed(0)
-			} else {
-				return parseFloat(a.percent.toFixed(1))
-			}
-		},
-		getVisibleText: function (a) {
-			if (a.count == -1) {
-				return "??"
-			}
-			if (a.percent >= 1.95) {
-				return a.percent.toFixed(0)
-			} else {
-				return parseFloat(a.percent.toFixed(1))
-			}
-		}
-	},
+percent: {id: "percent",name: "%",width: "10%",value: "percent",compute: function(a, b) {
+            if (a.count == -1) {
+                return "??"
+            }
+            if (a.percent >= 1.95) {
+                return a.percent.toFixed(0)
+            } else if (a.percent < 0) {
+                return ((-1 * a.percent) + ' (' + LANG.types[5][0] + ')')
+            } else {
+                return parseFloat(a.percent.toFixed(4))
+            }
+        },sortFunc: function(d, c, e) {
+            return strcmp(Math.abs(d.percent), Math.abs(c.percent));
+        },getVisibleText: function(a) {
+            if (a.count == -1) {
+                return "??"
+            }
+            if (a.percent >= 1.95) {
+                return a.percent.toFixed(0)
+            } else if (a.percent < 0) {
+                return ((-1 * a.percent) + ' (' + LANG.types[5][0] + ')')
+            } else {
+                return parseFloat(a.percent.toFixed(1))
+            }
+        }},
 	stock: {
 		id: "stock",
 		name: LANG.stock,

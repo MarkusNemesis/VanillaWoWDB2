@@ -39,5 +39,17 @@ $AoWoWconf['debug'] = false;
 // 1 is default and highly recommended.
 // Do not use float values or values > 3.
 $AoWoWconf['map_grouping'] = 1;
-
+// Itemisation patch
+# 1.2 = 0 
+# 1.3 = 1 
+# 1.4 = 2 
+# 1.5 = 3 
+# 1.6 = 4 
+# 1.7 = 5 
+# 1.8 = 6 
+# 1.9 = 7 
+# 1.10 = 8 
+# 1.11 = 9 
+# 1.12 = 10
+$AoWoWconf['patch'] = 5;
 ?>
