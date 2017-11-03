@@ -1,0 +1,17 @@
+Order Deny,Allow
+<FilesMatch "\.(conf|php|tpl|in)$">
+	Deny from all
+</FilesMatch>
+<FilesMatch "^(index|ajax|opensearch).php$">
+	Allow from all
+</FilesMatch>
+# Запрет просмотра некоторых папок
+Options -Indexes
+# Поддержка UTF8
+DirectoryIndex index.php
+AddDefaultCharset utf8
+<IfModule mod_charset.c>
+	CharsetDisable on
+	CharsetRecodeMultipartForms Off
+</IfModule>
+php_value		default_charset									UTF-8
