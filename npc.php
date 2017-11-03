@@ -4,7 +4,6 @@ require_once('includes/allspells.php');
 require_once('includes/allquests.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allcomments.php');
-require_once('includes/allachievements.php');
 
 // Настраиваем Smarty ;)
 $smarty->config_load($conf_file, 'npc');
@@ -70,55 +69,7 @@ if(!$npc = load_cache(1, $cache_key))
 		// Деньги
 		$money = ($row['mingold']+$row['maxgold']) / 2;
 		$npc = array_merge($npc, money2coins($money));
-		// Героик/нормал копия НПС
-		if($npc['heroic_entry'])
-		{
-			// это нормал НПС, ищем героика
-			if($tmp = creatureinfo($npc['heroic_entry']))
-			{
-				$npc['heroic'] = array(
-					'type'	=> 0,
-					'entry'	=> $tmp['entry'],
-					'name'	=> str_replace(LOCALE_HEROIC, '', $tmp['name'])
-				);
-				
-				unset($tmp);
-			}
-		}
-		else
-		{
-			// А может быть героик НПС одним для нескольких нормалов?
-			// считаем что нет
-			$tmp = $DB->selectRow('
-					SELECT c.entry, c.name
-					{
-						, l.name_loc?d as `name_loc`
-					}
-					FROM creature_template c
-					{
-						LEFT JOIN (locales_creature l)
-						ON l.entry = c.entry AND ?
-					}
-					WHERE
-						c.heroic_entry = ?d
-					LIMIT 1
-				',
-				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
-				($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$npc['entry']
-			);
-			if($tmp)
-			{
-				$npc['heroic'] = array(
-					'type'	=> 1,
-					'entry'	=> $tmp['entry'],
-					'name'	=> localizedName($tmp)
-				);
-				$npc['name'] = str_replace(' (1)', '', $npc['name']);
-				$normal_entry = $tmp['entry'];
-				unset($tmp);
-			}
-		}
+
 		// Дроп
 		$lootid=$row['lootid'];
 		// Используемые спеллы
@@ -230,7 +181,7 @@ if(!$npc = load_cache(1, $cache_key))
 
 		// Продает:
 		$rows_s = $DB->select('
-			SELECT ?#, i.entry, i.maxcount, n.`maxcount` as `drop-maxcount`, n.ExtendedCost
+			SELECT ?#, i.entry, i.maxcount, n.`maxcount` as `drop-maxcount`
 				{, l.name_loc?d AS `name_loc`}
 			FROM npc_vendor n, ?_icons, item_template i
 				{LEFT JOIN (locales_item l) ON l.entry=i.entry AND ?d}
@@ -253,21 +204,6 @@ if(!$npc = load_cache(1, $cache_key))
 				$npc['sells'][$numRow] = iteminfo2($row);
 				$npc['sells'][$numRow]['maxcount'] = $row['drop-maxcount'];
 				$npc['sells'][$numRow]['cost'] = array();
-				if($row['ExtendedCost'])
-				{
-					$extcost = $DB->selectRow('SELECT * FROM ?_item_extended_cost WHERE extendedcostID=?d LIMIT 1', $row['ExtendedCost']);
-					if($extcost['reqhonorpoints']>0)
-						$npc['sells'][$numRow]['cost']['honor'] = (($npc['A']==1)? 1: -1) * $extcost['reqhonorpoints'];
-					if($extcost['reqarenapoints']>0)
-						$npc['sells'][$numRow]['cost']['arena'] = $extcost['reqarenapoints'];
-					$npc['sells'][$numRow]['cost']['items'] = array();
-					for($j=1;$j<=5;$j++)
-						if(($extcost['reqitem'.$j]>0) and ($extcost['reqitemcount'.$j]>0))
-						{
-							allitemsinfo($extcost['reqitem'.$j], 0);
-							$npc['sells'][$numRow]['cost']['items'][] = array('item' => $extcost['reqitem'.$j], 'count' => $extcost['reqitemcount'.$j]);
-						}
-				}
 				if($row['BuyPrice']>0)
 					$npc['sells'][$numRow]['cost']['money'] = $row['BuyPrice'];
 			}
@@ -350,35 +286,6 @@ if(!$npc = load_cache(1, $cache_key))
 		}
 		unset ($rows_qo);
 
-		// Цель критерии
-		$rows = $DB->select('
-				SELECT a.id, a.faction, a.name_loc?d AS name, a.description_loc?d AS description, a.category, a.points, s.iconname, z.areatableID
-				FROM ?_spellicons s, ?_achievementcriteria c, ?_achievement a
-				LEFT JOIN (?_zones z) ON a.map != -1 AND a.map = z.mapID
-				WHERE
-					a.icon = s.id
-					AND a.id = c.refAchievement
-					AND c.type IN (?a)
-					AND c.value1 = ?d
-				GROUP BY a.id
-				ORDER BY a.name_loc?d
-			',
-			$_SESSION['locale'],
-			$_SESSION['locale'],
-			array(ACHIEVEMENT_CRITERIA_TYPE_KILL_CREATURE),
-			$npc['entry'],
-			$_SESSION['locale']
-		);
-		if($rows)
-		{
-			$npc['criteria_of'] = array();
-			foreach($rows as $row)
-			{
-				allachievementsinfo2($row['id']);
-				$npc['criteria_of'][] = achievementinfo2($row);
-			}
-		}
-
 		// Положения созданий божих (для героик НПС не задана карта, юзаем из нормала):
 		if($normal_entry)
 			// мы - героик НПС, определяем позицию по нормалу
@@ -410,7 +317,6 @@ $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
 // Если хоть одна информация о вещи найдена - передаём массив с информацией о вещях шаблонизатору
 $smarty->assign('allitems', $allitems);
 $smarty->assign('allspells', $allspells);
-$smarty->assign('allachievements', $allachievements);
 
 $smarty->assign('npc', $npc);
 

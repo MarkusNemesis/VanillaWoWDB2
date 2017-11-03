@@ -4,7 +4,6 @@ require_once('includes/allnpcs.php');
 require_once('includes/allitems.php');
 require_once('includes/allquests.php');
 require_once('includes/allcomments.php');
-require_once('includes/allachievements.php');
 
 $smarty->config_load($conf_file, 'faction');
 
@@ -115,35 +114,6 @@ if(!$faction = load_cache(18, $cache_key))
 			unset($quests_rows);
 		}
 
-		// Цель критерии
-		$rows = $DB->select('
-				SELECT a.id, a.faction, a.name_loc?d AS name, a.description_loc?d AS description, a.category, a.points, s.iconname, z.areatableID
-				FROM ?_spellicons s, ?_achievementcriteria c, ?_achievement a
-				LEFT JOIN (?_zones z) ON a.map != -1 AND a.map = z.mapID
-				WHERE
-					a.icon = s.id
-					AND a.id = c.refAchievement
-					AND c.type IN (?a)
-					AND c.value1 = ?d
-				GROUP BY a.id
-				ORDER BY a.name_loc?d
-			',
-			$_SESSION['locale'],
-			$_SESSION['locale'],
-			array(ACHIEVEMENT_CRITERIA_TYPE_GAIN_REPUTATION),
-			$faction['entry'],
-			$_SESSION['locale']
-		);
-		if($rows)
-		{
-			$faction['criteria_of'] = array();
-			foreach($rows as $row)
-			{
-				allachievementsinfo2($row['id']);
-				$faction['criteria_of'][] = achievementinfo2($row);
-			}
-		}
-
 		// Faction cache
 		save_cache(18, $cache_key, $faction);
 	}
@@ -168,7 +138,6 @@ $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
 $smarty->assign('faction', $faction);
 // Если хоть одна информация о вещи найдена - передаём массив с информацией о вещях шаблонизатору
 $smarty->assign('allitems', $allitems);
-$smarty->assign('allachievements', $allachievements);
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());

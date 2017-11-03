@@ -58,12 +58,12 @@ switch($razdel)
 	case 'account':
 		include 'account.php';
 		break;
-	case 'achievements':
-		include 'achievements.php';
-		break;
-	case 'achievement':
-		include 'achievement.php';
-		break;
+	// case 'achievements':
+		// include 'achievements.php';
+		// break;
+	// case 'achievement':
+		// include 'achievement.php';
+		// break;
 	case 'comment':
 		include 'comment.php';
 		break;

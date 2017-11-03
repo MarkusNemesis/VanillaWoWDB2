@@ -7,7 +7,6 @@ require_once('includes/allitems.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allobjects.php');
 require_once('includes/allcomments.php');
-require_once('includes/allachievements.php');
 
 // Загружаем файл перевода для smarty
 $smarty->config_load($conf_file, 'item');
@@ -110,7 +109,7 @@ if(!$item = load_cache(5, $cache_key))
 
 	// Поиск вендеров, которые эту вещь продают
 	$rows_soldby = $DB->select('
-			SELECT ?#, c.entry, v.ExtendedCost, v.maxcount AS stock
+			SELECT ?#, c.entry, v.maxcount AS stock
 			{
 				, l.name_loc?d AS name_loc
 				, l.subname_loc?d AS subname_loc
@@ -137,24 +136,7 @@ if(!$item = load_cache(5, $cache_key))
 			$item['soldby'][$i] = array();
 			$item['soldby'][$i] = creatureinfo2($row);
 			$item['soldby'][$i]['stock'] = ($row['stock'] == 0 ? -1 : $row['stock']);
-			if($row['ExtendedCost'])
-			{
-				$item['soldby'][$i]['cost'] = array();
-				$extcost = $DB->selectRow('SELECT * FROM ?_item_extended_cost WHERE extendedcostID=?d LIMIT 1', $row['ExtendedCost']);
-				if($extcost['reqhonorpoints'])
-					$item['soldby'][$i]['cost']['honor'] = ($row['A'] == 1 ? 1 : -1) * $extcost['reqhonorpoints'];
-				if($extcost['reqarenapoints'])
-					$item['soldby'][$i]['cost']['arena'] = $extcost['reqarenapoints'];
-				$item['soldby'][$i]['cost']['items'] = array();
-				for ($j=1;$j<=5;$j++)
-					if(($extcost['reqitem'.$j]>0) and ($extcost['reqitemcount'.$j]>0))
-					{
-						allitemsinfo($extcost['reqitem'.$j], 0);
-						$item['soldby'][$i]['cost']['items'][] = array('item' => $extcost['reqitem'.$j], 'count' => $extcost['reqitemcount'.$j]);
-					}
-			}
-			else
-				$item['soldby'][$i]['cost']['money'] = $item['BuyPrice'];
+			$item['soldby'][$i]['cost']['money'] = $item['BuyPrice'];
 		}
 		unset($extcost);
 	}
@@ -316,38 +298,6 @@ if(!$item = load_cache(5, $cache_key))
 		unset($drop);
 	}
 	unset($drops_sk);
-
-	// Поиск вещей, из которых перерабатывается эта вещь
-	$drops_pr = drop('prospecting_loot_template', $item['entry']);
-	if($drops_pr)
-	{
-		$item['prospectingloot'] = array();
-		foreach($drops_pr as $lootid => $drop)
-		{
-			$rows = $DB->select('
-					SELECT c.?#, c.entry, maxcount
-					{
-						, l.name_loc?d AS name_loc
-					}
-					FROM ?_icons, item_template c
-					{ LEFT JOIN (locales_item l) ON l.entry=c.entry AND ? }
-					WHERE
-						c.entry = ?d
-						AND id = displayid
-				',
-				$item_cols[2],
-				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
-				($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$lootid
-			);
-			foreach($rows as $row)
-				$item['prospectingloot'][] = array_merge(iteminfo2($row, 0), $drop);
-		}
-		unset($rows);
-		unset($lootid);
-		unset($drop);
-	}
-	unset($drops_pr);
 
 	// Дизенчантитcя в:
 	if(!($item['disenchanting'] = loot('disenchant_loot_template', $item['DisenchantID'])))
@@ -547,71 +497,6 @@ if(!$item = load_cache(5, $cache_key))
 	}
 	unset($drops_fi);
 
-	// Размалывается в
-	if(!$item['milling'] = loot('milling_loot_template', $item['entry']))
-		unset($item['milling']);
-
-	// Получается размалыванием из
-	$drops_mi = drop('milling_loot_template', $item['entry']);
-	if($drops_mi)
-	{
-		$item['milledfrom'] = array();
-		foreach($drops_mi as $lootid => $drop)
-		{
-			$rows = $DB->select('
-					SELECT c.?#, c.entry, maxcount
-					{
-						, l.name_loc?d AS name_loc
-					}
-					FROM ?_icons, item_template c
-					{ LEFT JOIN (locales_item l) ON l.entry=c.entry AND ? }
-					WHERE
-						c.entry=?d
-						AND id=displayid
-				',
-				$item_cols[2],
-				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
-				($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$lootid
-			);
-			foreach($rows as $row)
-				$item['milledfrom'][] = array_merge(iteminfo2($row, 0), $drop);
-		}
-		unset($rows);
-		unset($lootid);
-		unset($drop);
-	}
-	unset($drops_mi);
-
-	// Цель критерии
-	$rows = $DB->select('
-			SELECT a.id, a.faction, a.name_loc?d AS name, a.description_loc?d AS description, a.category, a.points, s.iconname, z.areatableID
-			FROM ?_spellicons s, ?_achievementcriteria c, ?_achievement a
-			LEFT JOIN (?_zones z) ON a.map != -1 AND a.map = z.mapID
-			WHERE
-				a.icon = s.id
-				AND a.id = c.refAchievement
-				AND c.type IN (?a)
-				AND c.value1 = ?d
-			GROUP BY a.id
-			ORDER BY a.name_loc?d
-		',
-		$_SESSION['locale'],
-		$_SESSION['locale'],
-		array(ACHIEVEMENT_CRITERIA_TYPE_OWN_ITEM, ACHIEVEMENT_CRITERIA_TYPE_USE_ITEM, ACHIEVEMENT_CRITERIA_TYPE_LOOT_ITEM, ACHIEVEMENT_CRITERIA_TYPE_EQUIP_ITEM),
-		$item['entry'],
-		$_SESSION['locale']
-	);
-	if($rows)
-	{
-		$item['criteria_of'] = array();
-		foreach($rows as $row)
-		{
-			allachievementsinfo2($row['id']);
-			$item['criteria_of'][] = achievementinfo2($row);
-		}
-	}
-
 	save_cache(5, $cache_key, $item);
 }
 global $page;
@@ -633,7 +518,6 @@ $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
 $smarty->assign('mysql', $DB->getStatistics());
 $smarty->assign('allitems', $allitems);
 $smarty->assign('allspells', $allspells);
-$smarty->assign('allachievements', $allachievements);
 $smarty->assign('item', $item);
 $smarty->display('item.tpl');
 ?>

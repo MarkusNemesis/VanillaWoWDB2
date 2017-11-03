@@ -40,7 +40,7 @@ if(!$factions = load_cache(19, $cache_key))
 				FROM ?_factions f1
 				WHERE
 					f1.reputationListID != -1
-					AND f1.team IN (?a)
+					AND f1.team IN (0)
 			',
 			$_SESSION['locale'],
 			intval($c2),

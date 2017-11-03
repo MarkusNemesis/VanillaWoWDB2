@@ -14,12 +14,6 @@
 								<select id="maps-kalimdor" onchange="ma_ChooseZone(this)" class="zone-picker">
 									<option value="0" style="color: #bbbbbb">{#Kalimdor#}</option>
 								</select>
-								<select id="maps-outland" onchange="ma_ChooseZone(this)" class="zone-picker">
-									<option value="0" style="color: #bbbbbb">{#Outland#}</option>
-								</select>
-								<select id="maps-northrend" onchange="ma_ChooseZone(this)" class="zone-picker">
-									<option value="0" style="color: #bbbbbb">{#Northrend#}</option>
-								</select>
 								<div style="padding-bottom: 4px"></div>
 								<select onchange="ma_ChooseZone(this)" class="zone-picker">
 									<option value="0" style="color: #bbbbbb">{#Instances#}</option>
@@ -33,8 +27,6 @@
 										<option value="-1">{#Azeroth#}</option>
 										<option value="-3">{#Eastern_Kingdoms#}</option>
 										<option value="457">{#Kalimdor#}</option>
-										<option value="-2">{#Outland#}</option>
-										<option value="-5">{#Northrend#}</option>
 										<option value="-4">{#Cosmic_Map#}</option>
 									</optgroup>
 								</select>

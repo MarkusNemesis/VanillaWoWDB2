@@ -67,19 +67,6 @@ switch($what)
 			$x .= 'tooltip_'.$locales[$_SESSION['locale']].': \''.ajax_str_normalize($quest['tooltip']).'\'';
 		$x .= '});';
 		break;
-	case 'achievement':
-		if(!$achievement = load_cache(23, $id))
-		{
-			require_once('includes/allachievements.php');
-			$achievement = allachievementsinfo($id, 1);
-			save_cache(23, $id, $achievement);
-		}
-		$x .= '$WowheadPower.registerAchievement('.$id.', '.$_SESSION['locale'].',{';
-		$x .= 'name_'.$locales[$_SESSION['locale']].': \''.ajax_str_normalize($achievement['name']).'\',';
-		$x .= 'icon:\''.$achievement['icon'].'\',';
-		$x .= 'tooltip_'.$locales[$_SESSION['locale']].':\''.ajax_str_normalize($achievement['tooltip']).'\'';
-		$x .= '});';
-		break;
 	default:
 		break;
 }

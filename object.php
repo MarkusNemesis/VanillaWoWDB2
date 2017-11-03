@@ -4,7 +4,6 @@ require_once('includes/allobjects.php');
 require_once('includes/allitems.php');
 require_once('includes/allcomments.php');
 require_once('includes/allquests.php');
-require_once('includes/allachievements.php');
 
 $smarty->config_load($conf_file, 'object');
 
@@ -59,35 +58,6 @@ if(!$object = load_cache(3, $cache_key))
 	}
 	unset($rows_qe);
 
-	// Цель критерии
-	$rows = $DB->select('
-			SELECT a.id, a.faction, a.name_loc?d AS name, a.description_loc?d AS description, a.category, a.points, s.iconname, z.areatableID
-			FROM ?_spellicons s, ?_achievementcriteria c, ?_achievement a
-			LEFT JOIN (?_zones z) ON a.map != -1 AND a.map = z.mapID
-			WHERE
-				a.icon = s.id
-				AND a.id = c.refAchievement
-				AND c.type IN (?a)
-				AND c.value1 = ?d
-			GROUP BY a.id
-			ORDER BY a.name_loc?d
-		',
-		$_SESSION['locale'],
-		$_SESSION['locale'],
-		array(ACHIEVEMENT_CRITERIA_TYPE_USE_GAMEOBJECT, ACHIEVEMENT_CRITERIA_TYPE_FISH_IN_GAMEOBJECT),
-		$object['entry'],
-		$_SESSION['locale']
-	);
-	if($rows)
-	{
-		$object['criteria_of'] = array();
-		foreach($rows as $row)
-		{
-			allachievementsinfo2($row['id']);
-			$object['criteria_of'][] = achievementinfo2($row);
-		}
-	}
-
 	// Положения объектофф:
 	$object['position'] = position($object['entry'], 'gameobject');
 
@@ -113,7 +83,6 @@ $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
 $smarty->assign('allitems', $allitems);
-$smarty->assign('allachievements', $allachievements);
 
 $smarty->assign('object', $object);
 $smarty->display('object.tpl');
