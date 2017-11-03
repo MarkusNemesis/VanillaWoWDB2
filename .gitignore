@@ -1,7 +1,3 @@
-# icons and maps files
-images/icons/*
-images/maps/*
-
 # custom patch files
 *.patch
 

@@ -1942,7 +1942,7 @@ var Menu = {
 							U.style.padding = 0;
 							S.style.padding = "4px 18px 4px 28px";
 							S.style.background = "url(templates/wowhead/images/icon_border_small.png) left center no-repeat transparent";
-							G.style.background = "url(images/icons/small/" + Q.smallIcon.toLowerCase() + ".jpg) 4px 3px no-repeat transparent"
+							G.style.background = "url(images/icons/small/" + Q.smallIcon.toLowerCase() + ".png) 4px 3px no-repeat transparent"
 						}
 					}
 				}
@@ -2481,7 +2481,7 @@ var Icon = {
 		if (b.indexOf("?") != -1) {
 			a.backgroundImage = "url(" + b + ")"
 		} else {
-			a.backgroundImage = "url(images/icons/" + Icon.sizes[c] + "/" + b.toLowerCase() + ".jpg)"
+			a.backgroundImage = "url(images/icons/" + Icon.sizes[c] + "/" + b.toLowerCase() + ".png)"
 		}
 		Icon.moveTexture(d, c, 0, 0)
 	},
@@ -2525,7 +2525,7 @@ var Icon = {
 			var b = this.firstChild.style;
 			if (b.backgroundImage.length && b.backgroundImage.indexOf("url(http://static.wowhead.com") == 0) {
 				var c = b.backgroundImage.lastIndexOf("/"),
-				a = b.backgroundImage.indexOf(".jpg");
+				a = b.backgroundImage.indexOf(".png");
 				if (c != -1 && a != -1) {
 					prompt("", b.backgroundImage.substring(c + 1, a))
 				}
@@ -2828,7 +2828,7 @@ var Tooltip = {
 	setIcon: function (a) {
 		Tooltip.prepare();
 		if (a) {
-			Tooltip.icon.style.backgroundImage = "url(images/icons/medium/" + a.toLowerCase() + ".jpg)";
+			Tooltip.icon.style.backgroundImage = "url(images/icons/medium/" + a.toLowerCase() + ".png)";
 			Tooltip.icon.style.visibility = "visible"
 		} else {
 			Tooltip.icon.style.backgroundImage = "none";
@@ -8760,7 +8760,7 @@ function () {
 			}
 			if ((type == 3 || type == 6 || type == 9 || type == 10) && param1) {
 				div.className += " live-search-icon";
-				div.style.backgroundImage = "url(images/icons/small/" + param1.toLowerCase() + ".jpg)"
+				div.style.backgroundImage = "url(images/icons/small/" + param1.toLowerCase() + ".png)"
 			} else {
 				if (type == 5 && param1 >= 1 && param1 <= 2) {
 					div.className += " live-search-icon-quest-" + (param1 == 1 ? "alliance": "horde")

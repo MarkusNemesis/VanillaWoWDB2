@@ -154,20 +154,20 @@ switch($_GET['data'])
 
 		if($name = load_cache(21, $iconname))
 		{
-			header('Content-type: image/jpeg');
-			imagejpeg(imagecreatefromjpeg('cache/images/'.$iconname.'.jpg'));
+			header('Content-type: image/png');
+			imagejpeg(imagecreatefrompng('cache/images/'.$iconname.'.png'));
 		}
 		else
 		{
-			header('Content-type: image/jpeg');
-			$im = @imagecreatefromjpeg('images/icons/medium/'.$iconname.'.jpg');
+			header('Content-type: image/png');
+			$im = @imagecreatefrompng('images/icons/medium/'.$iconname.'.png');
 
 			if(!$im)
 				exit;
 
 			imagetograyscale($im);
-			imagejpeg($im, 'cache/images/'.$iconname.'.jpg');
-			imagejpeg($im);
+			imagepng($im, 'cache/images/'.$iconname.'.png');
+			imagepng($im);
 			save_cache(21, $iconname, $iconname);
 		}
 		break;
