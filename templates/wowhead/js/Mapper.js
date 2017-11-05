@@ -104,7 +104,7 @@ function Mapper(d, e) {
 	}
 	this.updateMap(e)
 }
-Mapper.sizes = [[488, 325, "normal"], [1080, 720, "zoom"]];
+Mapper.sizes = [[810, 540, "normal"], [1080, 720, "zoom"]];
 Mapper.prototype = {
 	update: function (a, b) {
 		if (a.zoom != null) {
