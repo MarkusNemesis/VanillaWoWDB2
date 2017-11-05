@@ -124,6 +124,9 @@ switch($razdel)
 	case 'data':
 		include 'data.php';
 		break;
+	case 'zone':
+        include 'zone.php';
+        break;
 	default:
 		include 'main.php';
 		break;
