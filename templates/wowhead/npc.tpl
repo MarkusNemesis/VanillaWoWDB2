@@ -70,7 +70,7 @@
 													label:'$<br>
 													<div class=q0>
 														<small>
-															{if $point.t == 0}
+															{if $point.type == 0}
 																{#Respawn#}:
 																{if isset($point.r.h)} {$point.r.h}{#hr#}{/if}
 																{if isset($point.r.m)} {$point.r.m}{#min#}{/if}
@@ -79,7 +79,7 @@
 																{#Waypoint#}
 															{/if}
 														</small>
-													</div>',type:'{$point.t}'
+													</div>',type:'{$point.type}'
 												{rdelim}]
 												{if !$smarty.foreach.point.last},{/if}
 										{/foreach}
