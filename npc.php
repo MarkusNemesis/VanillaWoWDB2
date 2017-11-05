@@ -54,8 +54,8 @@ if(!$npc = load_cache(1, $cache_key))
 			$npc['minlevel'] = '??';
 			$npc['maxlevel'] = '??';
 		}
-		$npc['mindmg'] = round(($row['mindmg'] + $row['attackpower']) * $row['dmg_multiplier']);
-		$npc['maxdmg'] = round(($row['maxdmg'] + $row['attackpower']) * $row['dmg_multiplier']);
+        $npc['mindmg'] = ($row['mindmg'] /* + $row['attackpower'] */) * $row['dmg_multiplier'];
+        $npc['maxdmg'] = ($row['maxdmg'] /* + $row['attackpower'] */) * $row['dmg_multiplier'];
 		
 		$toDiv = array('minhealth', 'maxmana', 'minmana', 'maxhealth', 'armor', 'mindmg', 'maxdmg');
 		// Разделяем на тысячи (ххххххххх => ххх,ххх,ххх)
