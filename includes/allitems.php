@@ -678,7 +678,7 @@ function iteminfo($id, $level = 0)
  */
  function sanitiseitemrows($rows)
  {
-		echo "Sanitising!";
+	//echo "Sanitising!";
 	global $AoWoWconf;
 	if (empty($rows))
 		return $rows;
@@ -687,7 +687,7 @@ function iteminfo($id, $level = 0)
 		// Check if the patch number is valid
 		if ($row['patch'] > $AoWoWconf['patch'])
 		{
-			echo "Too new! - Removing " . $row['name'] . ' from patch ' . $row['patch'] . ' From index ' . $i . "! <br>";
+			//echo "Too new! - Removing " . $row['name'] . ' from patch ' . $row['patch'] . ' From index ' . $i . "! <br>";
 			unset($rows[$i]);
 		}
 	};
@@ -696,7 +696,7 @@ function iteminfo($id, $level = 0)
 		foreach ($rows as $j => $jrow) {
 			if ($row['entry'] == $jrow['entry']) {
 				if ($row['patch'] > $jrow['patch']) {
-					echo "Too old! - Removing " . $jrow['name'] . ' from patch ' . $jrow['patch'] . ' From index ' . $j . "! <br>";
+					//echo "Too old! - Removing " . $jrow['name'] . ' from patch ' . $jrow['patch'] . ' From index ' . $j . "! <br>";
 					unset($rows[$j]);
 				}
 			}
