@@ -6700,124 +6700,12 @@ Listview.templates = {
 			}
 		},
 		{
-			id: "level",
-			name: LANG.level,
-			type: "range",
-			width: "10%",
-			getMinValue: function (a) {
-				return a.minlevel
-			},
-			getMaxValue: function (a) {
-				return a.maxlevel
-			},
-			compute: function (a, b) {
-				if (a.minlevel > 0 && a.maxlevel > 0) {
-					if (a.minlevel != a.maxlevel) {
-						return a.minlevel + LANG.hyphen + a.maxlevel
-					} else {
-						return a.minlevel
-					}
-				}
-			},
-			sortFunc: function (d, c, e) {
-				if (e > 0) {
-					return strcmp(d.minlevel, c.minlevel) || strcmp(d.maxlevel, c.maxlevel)
-				} else {
-					return strcmp(d.maxlevel, c.maxlevel) || strcmp(d.minlevel, c.minlevel)
-				}
-			}
-		},
-		{
-			id: "territory",
-			name: LANG.territory,
-			type: "text",
-			width: "13%",
-			compute: function (a, c) {
-				var b = ce("span");
-				switch (a.territory) {
-				case 0:
-					b.className = "alliance-icon";
-					break;
-				case 1:
-					b.className = "horde-icon";
-					break;
-				case 4:
-					b.className = "ffapvp-icon";
-					break
-				}
-				ae(b, ct(g_zone_territories[a.territory]));
-				ae(c, b)
-			},
-			getVisibleText: function (a) {
-				return g_zone_territories[a.territory]
-			},
-			sortFunc: function (d, c, e) {
-				return strcmp(g_zone_territories[d.territory], g_zone_territories[c.territory])
-			}
-		},
-		{
 			id: "instancetype",
-			name: LANG.instancetype,
+			name: "Instance",
 			type: "text",
-			compute: function (a, d) {
-				if (a.instance > 0) {
-					var b = ce("span");
-					if ((a.instance >= 1 && a.instance <= 5) || a.instance == 7) {
-						b.className = "instance-icon" + a.instance
-					}
-					if (a.nplayers == -2) {
-						a.nplayers = "10/25"
-					}
-					var c = g_zone_instancetypes[a.instance];
-					if (a.nplayers && ((a.instance != 2 && a.instance != 5) || a.nplayers > 5)) {
-						c += " (";
-						if (a.instance == 4) {
-							c += sprintf(LANG.lvzone_xvx, a.nplayers, a.nplayers)
-						} else {
-							c += sprintf(LANG.lvzone_xman, a.nplayers)
-						}
-						c += ")"
-					}
-					ae(b, ct(c));
-					ae(d, b)
-				}
-			},
-			getVisibleText: function (a) {
-				if (a.instance > 0) {
-					var b = g_zone_instancetypes[a.instance];
-					if (a.nplayers && ((a.instance != 2 && a.instance != 5) || a.nplayers > 5)) {
-						if (a.instance == 4) {
-							b += " " + sprintf(LANG.lvzone_xvx, a.nplayers, a.nplayers)
-						} else {
-							b += " " + sprintf(LANG.lvzone_xman, a.nplayers)
-						}
-					}
-					return b
-				}
-			},
-			sortFunc: function (d, c, e) {
-				return strcmp(g_zone_instancetypes[d.instance], g_zone_instancetypes[c.instance]) || strcmp(d.instance, c.instance) || strcmp(d.nplayers, c.nplayers)
-			}
+			value: "instance"
 		},
-		{
-			id: "category",
-			name: LANG.category,
-			type: "text",
-			width: "15%",
-			compute: function (c, d) {
-				d.className = "small q1";
-				var b = ce("a");
-				b.href = "?zones=" + c.category;
-				ae(b, ct(g_zone_categories[c.category]));
-				ae(d, b)
-			},
-			getVisibleText: function (a) {
-				return g_zone_categories[a.category]
-			},
-			sortFunc: function (d, c, e) {
-				return strcmp(g_zone_categories[d.category], g_zone_categories[c.category])
-			}
-		}],
+		],
 		getItemLink: function (a) {
 			return "?zone=" + a.id
 		}

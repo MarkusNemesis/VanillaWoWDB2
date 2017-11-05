@@ -207,8 +207,7 @@ $page = array(
 	'tab' => 1,
 	'type' => 7,
 	'typeid' => $zone['areatableID'],
-	'[0,0,' . $zone['areatableID'] . ']',
-	'path' => '[0,0,' . $zone['areatableID'] . ']',//path(1, 1, $zone['areatableID']) //path(0, 6, $zone['map'])
+	'path' => path(0, 6, $zone['areatableID']) //path(0, 6, $zone['map'])
 );
 
 $smarty->assign('page', $page);
