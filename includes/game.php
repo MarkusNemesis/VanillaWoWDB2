@@ -432,7 +432,6 @@ function transform_coords($recv)
 	foreach($recv as $point)
 	{
 		$mapid = $point['m'];
-
 		$md = $map_data[$mapid];
 		$point['n'] = $md['ignore_negatives'];
 		// Карта не доступна
@@ -440,18 +439,21 @@ function transform_coords($recv)
 		{
 			if(isset($map_dataoffsets[$mapid]))
 			{
+				
 				// Если у нас уже была точка с такой картой,
 				// то увеличиваем население на ней.
-				$data[$map_dataoffsets[$mapid]]['population']++;
+				if ($point['type'] <> 3)
+					$data[$map_dataoffsets[$mapid]]['population']++;
 			}
 			else
 			{
 				// Если нет - создаем новую.
-				$data[++$i] = array(
-					'population' => 1,
-					'name' => $md['name'],
-					'atid' => $md['map_not_available'] ? 0 : $md['atid']
-				);
+				if ($point['type'] <> 3)
+					$data[++$i] = array(
+						'population' => 1,
+						'name' => $md['name'],
+						'atid' => $md['map_not_available'] ? 0 : $md['atid']
+					);
 				$map_dataoffsets[$mapid] = $i;
 			}
 			continue;
@@ -499,7 +501,8 @@ function transform_coords($recv)
 			$offset = $zone_dataoffsets[$chosen_area];
 			// Если у нас уже была точка с такой картой,
 			// то увеличиваем население на ней, записываем новую точку
-			$data[$offset]['population']++;
+			if ($point['type'] <> 3)
+				$data[$offset]['population']++;
 
 			if($chosen_area)
 				$data[$offset]['points'][] = transform_point($at_data[$at_dataoffsets[$chosen_area]], $point);
@@ -508,12 +511,13 @@ function transform_coords($recv)
 		{
 			$points_array = $chosen_area ? array(transform_point($at_data[$at_dataoffsets[$chosen_area]], $point)) : array();
 			// Если нет - создаем новую.
-			$data[++$i] = array(
-				'population' => 1,
-				'name' => $at_data[$at_dataoffsets[$chosen_area]]['name'],
-				'atid' => $chosen_area,
-				'points' => $points_array
-			);
+			if ($point['type'] <> 3)
+				$data[++$i] = array(
+					'population' => 1,
+					'name' => $at_data[$at_dataoffsets[$chosen_area]]['name'],
+					'atid' => $chosen_area,
+					'points' => $points_array
+				);
 			$zone_dataoffsets[$chosen_area] = $i;
 		}
 	}
@@ -539,6 +543,7 @@ function position($id, $type, $spawnMask = 0)
 		$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP,
 		$AoWoWconf['map_grouping'] > 0 ? -$AoWoWconf['map_grouping'] : DBSIMPLE_SKIP
 	);
+	
 	if($type <> 'gameobject')
 	{
 		$wpWalkingCreaturesGuids = array();
@@ -565,7 +570,14 @@ function position($id, $type, $spawnMask = 0)
 			$data = array_merge($data, $wps);
 		}
 	}
-
+	
+	foreach ($data as $zone) {
+		//echo $zone['type'] . ', (' . $zone['x'] . ','  . $zone['y'] . ')<br>';
+		foreach ($zone as $spawn) {
+			// echo $spawn['type'];
+		}
+	}
+	
 	if($data)
 	{
 		$data = transform_coords($data);

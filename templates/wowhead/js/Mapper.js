@@ -104,7 +104,7 @@ function Mapper(d, e) {
 	}
 	this.updateMap(e)
 }
-Mapper.sizes = [[488, 325, "normal"], [772, 515, "zoom"]];
+Mapper.sizes = [[488, 325, "normal"], [1080, 720, "zoom"]];
 Mapper.prototype = {
 	update: function (a, b) {
 		if (a.zoom != null) {
@@ -262,6 +262,8 @@ Mapper.prototype = {
 				d = 0
 			}
 			this.span.style.background = "url(images/maps/enus/" + Mapper.sizes[this.zoom][2] + "/" + this.zone + (d ? "-" + d: "") + ".jpg)"
+			this.span.style.backgroundRepeat = "no-repeat"
+			this.span.style.backgroundSize = "contain"
 		}
 		if (this.zoneLink) {
 			var b = parseInt(this.zone);
