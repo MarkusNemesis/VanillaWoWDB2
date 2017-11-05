@@ -1,5 +1,6 @@
 <?php
 require_once('includes/alllocales.php');
+require_once('includes/game.php');
 
 // Для списка creatureinfo()
 $npc_cols[0] = array('name', 'subname', 'minlevel', 'maxlevel', 'type', 'rank', 'A','H');
@@ -20,9 +21,9 @@ function creatureinfo2(&$Row)
 	// Min/Max уровни
 	$creature['minlevel'] = $Row['minlevel'];
 	$creature['maxlevel'] = $Row['maxlevel'];
-	// TODO: Месторасположение
-	//	$creature['location'] = location($creature['entry'],'creature');
-	// TODO: Реакция на фракции
+	// Get Location
+	$creature['location'] = getLocation($creature['entry'], "creature");
+	// Reaction
 	$creature['react'] = ($Row['A']).','.($Row['H']);
 	// Тип NPC
 	$creature['type'] = $Row['type'];
