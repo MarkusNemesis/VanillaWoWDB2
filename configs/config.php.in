@@ -25,7 +25,7 @@ $AoWoWconf['aowow']['template'] = 'wowhead';
 // Time to keep cache in seconds (Default: 1 week)
 $AoWoWconf['aowow']['cache_time'] = (60*60*24*7);
 // Default locale
-$AoWoWconf['locale'] = 8;
+$AoWoWconf['locale'] = 0;
 // Allow account creating
 $AoWoWconf['register'] = false;
 // Used with register, account expansion
