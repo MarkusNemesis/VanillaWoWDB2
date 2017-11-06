@@ -218,7 +218,7 @@ if(!$item = load_cache(5, $cache_key))
 				($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
 				$lootid
 			);
-			$rows = sanitiserows($rows);
+			$rows = sanitiseitemrows($rows);
 			foreach($rows as $row)
 				$item['containedinitem'][] = array_merge(iteminfo2($row, 0), $drop);
 		}
@@ -327,7 +327,7 @@ if(!$item = load_cache(5, $cache_key))
 				($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
 				$lootid
 			);
-			$rows = sanitiserows($rows);
+			$rows = sanitiseitemrows($rows);
 			foreach($rows as $row)
 				$item['disenchantedfrom'][] = array_merge(iteminfo2($row, 0), $drop);
 		}
@@ -365,7 +365,7 @@ if(!$item = load_cache(5, $cache_key))
 		
 		if($rows_cpi)
 		{
-			$rows_cpi = sanitiserows($rows_cpi);
+			$rows_cpi = sanitiseitemrows($rows_cpi);
 			$item['canbeplacedin'] = array();
 			foreach($rows_cpi as $row)
 				$item['canbeplacedin'][] = iteminfo2($row, 0);

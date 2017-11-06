@@ -319,7 +319,7 @@ if(!$spell = load_cache(13, $cache_key))
 		);
 		if($taughtbyitem)
 		{
-			$taughtbyitem = sanitiserows($taughtbyitem);
+			$taughtbyitem = sanitiseitemrows($taughtbyitem);
 			foreach($taughtbyitem as $i=>$itemrow)
 				$spell['taughtbyitem'][] = iteminfo2($itemrow, 0);
 			unset($taughtbyitem);

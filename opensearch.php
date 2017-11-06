@@ -40,7 +40,7 @@ $rows = $DB->select('
 	$_SESSION['locale'] == 0 ? DBSIMPLE_SKIP : 'entry',					// WHERE2
 	$_SESSION['locale'] == 0 ? 'name' : 'name_loc'.$_SESSION['locale']	// ORDER
 );
-$rows = sanitiserows($rows);
+$rows = sanitiseitemrows($rows);
 foreach($rows as $i => $row)
 	$found[$row['name'].' (Item)'] = array(
 		'type'		=> 3,

@@ -55,7 +55,7 @@ $rows = $DB->select('
 	$nsearch,
 	($m)? $m: DBSIMPLE_SKIP
 );
-$rows = sanitiserows($rows);
+$rows = sanitiseitemrows($rows);
 unset($m);
 foreach($rows as $row)
 	$found['item'][] = iteminfo2($row);
