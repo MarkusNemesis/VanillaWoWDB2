@@ -238,19 +238,22 @@ function allitemsinfo2(&$Row, $level=0)
 function getitemname($id)
 {
 	global $DB;
-	$z = $DB->selectRow('
+	global $AoWoWconf;
+	$z = $DB->select('
 			SELECT name {, l.name_loc?d AS name_loc}
 			FROM item_template i
 			{ LEFT JOIN (locales_item l) ON l.entry=i.entry AND ? }
 			WHERE
 				i.entry=?
-			LIMIT 1
+				LIMIT 10
 		',
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-		$id
+		$id,
+		$AoWoWconf['patch']
 	);
-	return localizedName($z);
+	$z = sanitiseitemrows($z);
+	return localizedName($z[0]);
 }
 
 function allitemsinfo($id, $level=0)
@@ -258,12 +261,15 @@ function allitemsinfo($id, $level=0)
 	global $DB;
 	global $allitems;
 	global $item_cols;
+	global $AoWoWconf;
 
 	if(isset($allitems[$id]))
 	{
 		return $allitems[$id];
 	} else {
 		$row = $DB->selectRow('
+		SELECT a.* FROM 
+		(
 			SELECT i.?#
 			{
 				, l.name_loc?d AS name_loc
@@ -278,6 +284,13 @@ function allitemsinfo($id, $level=0)
 			WHERE
 				i.entry=?
 				AND id=displayid
+		) a
+		INNER JOIN (
+			SELECT *, MAX(patch) patchno
+			FROM item_template
+			WHERE patch <= ?d
+			GROUP BY entry
+		) b ON a.entry = b.entry AND a.patch = b.patchno
 			LIMIT 1
 			',
 			$item_cols[$level],
@@ -285,7 +298,8 @@ function allitemsinfo($id, $level=0)
 			($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 			($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
 			($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-			$id
+			$id,
+			$AoWoWconf['patch']
 		);
 		return allitemsinfo2($row, $level);
 	}
@@ -650,7 +664,7 @@ function iteminfo($id, $level = 0)
 {
 	global $item_cols;
 	global $DB;
-	$row = $DB->selectRow('
+	$row = $DB->select('
 		SELECT i.?#, i.entry
 		{
 			, l.name_loc?d AS name_loc
@@ -660,7 +674,7 @@ function iteminfo($id, $level = 0)
 		{ LEFT JOIN (locales_item l) ON l.entry=i.entry AND ? }
 		WHERE
 			(i.entry=?d and id=displayid)
-		LIMIT 1
+		LIMIT 5
 		',
 		$item_cols[2+$level],
 		($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
@@ -668,7 +682,8 @@ function iteminfo($id, $level = 0)
 		($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
 		$id
 	);
-	return iteminfo2($row, $level);
+	$row = sanitiseitemrows($row);
+	return iteminfo2($row[0], $level);
 }
 
 // Sanitise item rows for progressive data

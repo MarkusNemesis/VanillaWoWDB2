@@ -4,6 +4,7 @@
 require_once('includes/allquests.php');
 require_once('includes/allobjects.php');
 require_once('includes/allnpcs.php');
+require_once('includes/allitems.php');
 require_once('includes/allcomments.php');
 
 $smarty->config_load($conf_file, 'quest');
@@ -434,6 +435,7 @@ if(!$quest = load_cache(10, $cache_key))
 	);
 	if($rows)
 	{
+		$rows = sanitiseitemrows($rows);
 		foreach($rows as $tmp)
 		{
 			$tmp['name'] = localizedName($tmp);

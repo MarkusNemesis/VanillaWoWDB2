@@ -1,6 +1,7 @@
 <?php
 
 require_once('includes/allspells.php');
+require_once('includes/allitems.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allquests.php');
 require_once('includes/allcomments.php');
@@ -318,6 +319,7 @@ if(!$spell = load_cache(13, $cache_key))
 		);
 		if($taughtbyitem)
 		{
+			$taughtbyitem = sanitiserows($taughtbyitem);
 			foreach($taughtbyitem as $i=>$itemrow)
 				$spell['taughtbyitem'][] = iteminfo2($itemrow, 0);
 			unset($taughtbyitem);
@@ -427,6 +429,7 @@ if(!$spell = load_cache(13, $cache_key))
 			);
 			if($taughtbyitem)
 			{
+				$taughtbyitem = sanitiseitemrows($taughtbyitem);
 				foreach($taughtbyitem as $i=>$itemrow)
 					$spell['taughtbyitem'][] = iteminfo2($itemrow, 0);
 				unset($taughtbyitem);
@@ -476,6 +479,7 @@ if(!$spell = load_cache(13, $cache_key))
 		);
 		if($usedbyitem)
 		{
+			$usedbyitem = sanitiseitemrows($usedbyitem);
 			$spell['usedbyitem'] = array();
 			foreach($usedbyitem as $i => $row)
 				$spell['usedbyitem'][] = iteminfo2($row, 0);

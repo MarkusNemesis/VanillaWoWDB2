@@ -226,6 +226,7 @@ function GetQuestStrings(&$data)
 function GetQuestReq($id, $count, $type)
 {
 	global $DB;
+	global $AoWoWconf;
 	switch($type)
 	{
 		case 1:
@@ -247,17 +248,27 @@ function GetQuestReq($id, $count, $type)
 			break;
 		case 2:
 			$row = $DB->selectRow('
+			SELECT a.* FROM 
+			(
 					SELECT name
 						{, l.name_loc?d AS name_loc}
 					FROM item_template c
 						{ LEFT JOIN (locales_item l) ON l.entry=c.entry AND ? }
 					WHERE
 						c.entry = ?d
+			) a
+			INNER JOIN (
+				SELECT *, MAX(patch) patchno
+				FROM item_template
+				WHERE patch <= ?d
+				GROUP BY entry
+			) b ON a.entry = b.entry AND a.patch = b.patchno
 					LIMIT 1
 				',
 				($_SESSION['locale']>0)? $_SESSION['locale']: DBSIMPLE_SKIP,
 				($_SESSION['locale']>0)? 1: DBSIMPLE_SKIP,
-				$id
+				$id,
+				$AoWoWconf['patch']
 			);
 			$name = localizedName($row);
 			return $name.(($count>1)? (' x'.$count): '');

@@ -1,6 +1,7 @@
 <?php
 require_once('configs/config.php');
 require_once('includes/allutil.php');
+require_once('includes/allitems.php');
 
 // Для Ajax отключаем debug
 $AoWoWconf['debug'] = false;
@@ -30,7 +31,7 @@ $rows = $DB->select('
 		AND a.id = i.displayid
 		{ AND i.entry = l.?# }
 	ORDER BY i.quality DESC, ?#
-	LIMIT 3
+	LIMIT 5
 	',
 	$_SESSION['locale'] == 0 ? 'name' : 'name_loc'.$_SESSION['locale'],	// SELECT
 	$_SESSION['locale'] == 0 ? DBSIMPLE_SKIP : 'locales_item',			// FROM
@@ -39,7 +40,7 @@ $rows = $DB->select('
 	$_SESSION['locale'] == 0 ? DBSIMPLE_SKIP : 'entry',					// WHERE2
 	$_SESSION['locale'] == 0 ? 'name' : 'name_loc'.$_SESSION['locale']	// ORDER
 );
-
+$rows = sanitiserows($rows);
 foreach($rows as $i => $row)
 	$found[$row['name'].' (Item)'] = array(
 		'type'		=> 3,

@@ -197,6 +197,7 @@ if(!$npc = load_cache(1, $cache_key))
 		);
 		if($rows_s)
 		{
+			$rows_s = sanitiserows($rows_s);
 			$npc['sells'] = array();
 			foreach($rows_s as $numRow=>$row)
 			{
