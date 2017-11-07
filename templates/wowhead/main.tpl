@@ -4,8 +4,8 @@
 	<style type="text/css">
 {literal}
 		.menu-buttons a { border-color: black }
-		.news { position: relative; text-align: left; width: 415px; height: 191px; margin: 30px auto 0 auto; background: url(templates/wowhead/images/{/literal}{$language}{literal}/mainpage-bg-news.jpg) no-repeat }
-		.news-list { padding: 26px 0 0 26px; margin: 0 }
+		.news { position: relative; text-align: left; width: 519px; height: 512px; margin: 30px auto 0 auto; background: url(templates/wowhead/images/{/literal}{$language}{literal}/mainpage-bg-news.jpg) no-repeat }
+		.news-list { padding: 26px 26px 0 0; margin: 0 }
 		.news-list li { line-height: 2em }
 		.news-img1 { position: absolute; left: 60px; top: 155px; width: 172px; height: 17px }
 		.news-img2 { position: absolute; left: 246px; top: 48px; width: 145px; height: 127px }
