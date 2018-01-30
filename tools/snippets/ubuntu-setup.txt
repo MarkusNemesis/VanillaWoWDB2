@@ -1,0 +1,11 @@
+# Ensure that you use php5.6 by using the following command (adjust the php7.1 to whichever version you have installed):
+
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+apt-get install php5.6 php5.6-simplexml php5.6-gd php5.6-mysql php5.6-mbstring
+sudo a2dismod php7.1 ; sudo a2enmod php5.6 ; sudo service apache2 restart
+
+# mysql must not use full_group mode
+nano /etc/mysql/mysql.conf.d/mysqld.cnf
+	add the following line AFTER [mysqld]
+		sql-mode        = ""
