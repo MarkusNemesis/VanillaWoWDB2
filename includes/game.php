@@ -308,8 +308,8 @@ function transform_point($at, $point)
 
 	$result['x'] = round(100 - ($point['y']-$at['y_min']) / (($at['y_max']-$at['y_min']) / 100), 2);
 	$result['y'] = round(100 - ($point['x']-$at['x_min']) / (($at['x_max']-$at['x_min']) / 100), 2);
-	$result['r'] = sec_to_time($point['spawntimesecs']);
-	unset($result['spawntimesecs']);
+	$result['r'] = sec_to_time($point['spawntimesecsmin']);
+	unset($result['spawntimesecsmin']);
 
 	return $result;
 }
@@ -531,7 +531,7 @@ function position($id, $type, $spawnMask = 0)
 	global $smarty, $exdata, $zonedata, $DB, $AoWoWconf, $cached_images;
 
 	$data = $DB->select('
-			SELECT guid, map AS m, position_x AS x, position_y AS y, spawntimesecs, {MovementType AS ?#, }"0" AS `type`
+			SELECT guid, map AS m, position_x AS x, position_y AS y, spawntimesecsmin, spawntimesecsmax, {MovementType AS ?#, }"0" AS `type`
 			FROM '.$type.'
 			WHERE id = ?d
 			{ GROUP BY ROUND(x,?d), ROUND(y,?d) }
@@ -665,7 +665,7 @@ function resolve_coord(&$data) {
     $xdata = array();
 
     foreach ($data as $ndata) {
-        if (isset($ndata['spawntimesecs']))
+        if (isset($ndata['spawntimesecsmin']))
         {
             $coord_tozone =  coord_tozone($ndata['m'], $ndata['x'], $ndata['y'], false) ?: array();
             $tmp = array_merge($coord_tozone, array('r' => sec_to_time($ndata['spawntimesecs'])));
@@ -686,7 +686,7 @@ function getLocation($id, $type) {
     global $smarty, $exdata, $zonedata, $DB, $UDWBaseconf;
 
     $data = $DB->select('
-		SELECT guid, map AS m, position_x AS x, position_y AS y, spawntimesecs, {MovementType AS ?#, }"0" AS `type` FROM ' . $type . ' 
+		SELECT guid, map AS m, position_x AS x, position_y AS y, spawntimesecsmin, spawntimesecsmax, {MovementType AS ?#, }"0" AS `type` FROM ' . $type . ' 
 		WHERE id = ?d 
 		GROUP BY ROUND(x,?d), ROUND(y,?d) 
 		ORDER BY x,y

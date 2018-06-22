@@ -90,11 +90,11 @@ if(!$npc = load_cache(1, $cache_key))
 		for($j=1;$j<4;$j++)
 		{
 			$tmp2 = $DB->select('
-				SELECT action?d_param1
+				SELECT datalong
 				FROM creature_ai_scripts
 				WHERE
-					creature_id=?d
-					AND action?d_type=11
+					id=?d
+					AND dataint=11
 				',
 				$j,
 				$npc['entry'],
