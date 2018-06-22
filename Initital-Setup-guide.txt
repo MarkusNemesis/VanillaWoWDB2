@@ -79,13 +79,15 @@
 	wget https://raw.githubusercontent.com/brotalnia/database/master/world_full_08_june_2018.7z
 	7z x ./world_full_08_june_2018.7z
 	
-	# Create the aowow and realmd databases
+	# Create the aowow and realmd databases and create your database user
 	mysql -u root -p
 		type the following:
 			create database aowow;
 			create database realmd;
+			GRANT ALL PRIVILEGES ON aowow.* TO '<YOURUSERNAME>'@'localhost' IDENTIFIED BY '<YOURPASSWORD>';
+			GRANT ALL PRIVILEGES ON realmd.* TO '<YOURUSERNAME>'@'localhost' IDENTIFIED BY '<YOURPASSWORD>';
 			exit
-	
+		
 	# Import the world DB contents into the aowow database in mysql
 	mysql -u root -p aowow < world_full_08_june_2018.sql
 	
@@ -100,10 +102,26 @@
 	cd /var/www/html/VanillaWoWDB2/tools/sql/realmd
 	mysql -u root -p realmd < realmd.sql
 	
-	# Configure your site via making a new 
+	# Configure your site via making a new config file.
 	cd /var/www/html/VanillaWoWDB2/configs/
 	cp ./config.php.in ./config.php
 	nano ./config.php
 		Make your desired changes to the config (Patch version, site name. Use the mysql database credentials you set in the steps above.)
 
-# -=-=-=-=-=-=-=-=-=- xxx -=-=-=-=-=-=-=-=-=-
+# -=-=-=-=-=-=-=-=-=- Importing Aowow comments -=-=-=-=-=-=-=-=-=-
+
+	# If you want to import comments from Aowow, you can find them here: https://github.com/Sunksat/aowow_comments
+	cd ~/
+	git clone https://github.com/Sunksat/aowow_comments
+	
+	# You'll need to modify the accounts SQL files to fit the realmd we are using. You can do this with a find/replace via sed
+	find ./aowow_comments/ -type f -exec sed -i -e "s/'changepass1234', '0', null, null, null, '', '', null, '2004-11-23 21:10:00', '0.0.0.0', '127.0.0.1', '127.0.0.1', '0', '0', '00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0', '0', '', '', '0', '', '0', '0', '0', '0', '', '0', null, null, '0', null, null, '0', null, null)/'REPLACEWITHGIBBERISH',0,NULL,NULL,NULL,NULL,'2004-11-23 21:10:00','0.0.0.0',0,0,'0000-00-00 00:00:00',0,0,0,0,NULL,0)/i" {} \;
+	
+	# You will need to import each type separately by cd ing into their directories and running the following. Repeat this process per type
+	# Import comments and ratings into the aowow database
+	mysql -u root -p aowow < ./htmlfix/aowow_comments_TYPE_comments_sql_FINAL.sql
+	mysql -u root -p aowow < ./aowow_comments_TYPE_ratings_sql_FINAL.sql
+	
+	# Import the accounts who made these comments into the realmd database
+	mysql -u root -p realmd < ./aowow_comments_TYPE_accounts_sql_FINAL.sql
+	
