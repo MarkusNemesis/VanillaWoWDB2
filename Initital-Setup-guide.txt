@@ -123,11 +123,36 @@
 	# You may have some comments that break the import process due to not being cleaned correctly before importing. If this occurs, fix the troublesome lines and then run the following before attempting to re-import them
 	find ./ -type f -exec sed -i -e "s/INSERT INTO/REPLACE INTO/i" {} \;
 	
-	# You will need to import each type separately by cd ing into their directories and running the following. Repeat this process per type
-	# Import comments and ratings into the aowow database
-	mysql -u root -p aowow < ./htmlfix/aowow_comments_TYPE_comments_sql_FINAL.sql
-	mysql -u root -p aowow < ./aowow_comments_TYPE_ratings_sql_FINAL.sql
+	# You will need to import each type separately by running the following. 
+	cd ~/aowow_comments/aowow_comments_dbvanilla/
 	
-	# Import the accounts who made these comments into the realmd database
-	mysql -u root -p realmd < ./aowow_comments_TYPE_accounts_sql_FINAL.sql
+	# Items
+	mysql -u root -p aowow < ./items/aowow_comments_items_ratings_sql_FINAL.sql
+	mysql -u root -p aowow < ./items/htmlfix/aowow_comments_items_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p realmd < ./items/aowow_comments_items_accounts_sql_FINAL.sql
+
+	# Item Sets
+	mysql -u root -p aowow < ./itemset/aowow_comments_itemset_comments_rating_sql_FINAL.sql
+	mysql -u root -p aowow < ./itemset/htmlfix/aowow_comments_itemset_comments_sql_FINAL.sql
+	mysql -u root -p realmd < ./itemset/aowow_comments_itemset_accounts_sql_FINAL.sql
+	
+	# NPCs
+	mysql -u root -p aowow < ./npc/aowow_comments_npc_ratings_sql_FINAL.sql
+	mysql -u root -p aowow < ./npc/htmfix/aowow_comments_npc_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p realmd < ./npc/aowow_comments_npc_accounts_sql_FINAL.sql
+
+	# Objects
+	mysql -u root -p aowow < ./object/aowow_comments_objects_ratings_sql_FINAL.sql
+	mysql -u root -p aowow < ./object/htmlfix/aowow_comments_objects_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p realmd < ./object/aowow_comments_objects_accounts_sql_FINAL.sql
+
+	# Quests
+	mysql -u root -p aowow < ./quest/aowow_comments_quests_ratings_sql_FINAL.sql
+	mysql -u root -p aowow < ./quest/htmlfix/aowow_comments_quests_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p realmd < ./quest/aowow_comments_quests_accounts_sql_FINAL.sql
+
+	# Zones
+	mysql -u root -p aowow < ./zone/aowow_comments_zone_ratings_sql_FINAL.sql
+	mysql -u root -p aowow < ./zone/htmlfix/aowow_comments_zone_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p realmd < ./zone/aowow_comments_zone_accounts_sql_FINAL.sql
 	
