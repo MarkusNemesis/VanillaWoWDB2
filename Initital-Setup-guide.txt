@@ -117,6 +117,12 @@
 	# You'll need to modify the accounts SQL files to fit the realmd we are using. You can do this with a find/replace via sed
 	find ./aowow_comments/ -type f -exec sed -i -e "s/'changepass1234', '0', null, null, null, '', '', null, '2004-11-23 21:10:00', '0.0.0.0', '127.0.0.1', '127.0.0.1', '0', '0', '00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0', '0', '', '', '0', '', '0', '0', '0', '0', '', '0', null, null, '0', null, null, '0', null, null)/'REPLACEWITHGIBBERISH',0,NULL,NULL,NULL,NULL,'2004-11-23 21:10:00','0.0.0.0',0,0,'0000-00-00 00:00:00',0,0,0,0,NULL,0)/i" {} \;
 	
+	# You will need to convert the links inside the comments to point to your database. To do so, run the following as you did before. Note: You'll need to ESCAPE out the slashes in this string. Use this site to help you: http://dwaves.de/tools/escape/
+	find ./ -type f -exec sed -i -e "s/http:\/\/dburlhere\//http:////vanillawowdb.com\//i" {} \;
+	
+	# You may have some comments that break the import process due to not being cleaned correctly before importing. If this occurs, fix the troublesome lines and then run the following before attempting to re-import them
+	find ./ -type f -exec sed -i -e "s/INSERT INTO/REPLACE INTO/i" {} \;
+	
 	# You will need to import each type separately by cd ing into their directories and running the following. Repeat this process per type
 	# Import comments and ratings into the aowow database
 	mysql -u root -p aowow < ./htmlfix/aowow_comments_TYPE_comments_sql_FINAL.sql
