@@ -118,7 +118,7 @@
 	find ./aowow_comments/ -type f -exec sed -i -e "s/'changepass1234', '0', null, null, null, '', '', null, '2004-11-23 21:10:00', '0.0.0.0', '127.0.0.1', '127.0.0.1', '0', '0', '00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0', '0', '', '', '0', '', '0', '0', '0', '0', '', '0', null, null, '0', null, null, '0', null, null)/'REPLACEWITHGIBBERISH',0,NULL,NULL,NULL,NULL,'2004-11-23 21:10:00','0.0.0.0',0,0,'0000-00-00 00:00:00',0,0,0,0,NULL,0)/i" {} \;
 	
 	# You will need to convert the links inside the comments to point to your database. To do so, run the following as you did before. Note: You'll need to ESCAPE out the slashes in this string. Use this site to help you: http://dwaves.de/tools/escape/
-	find ./ -type f -exec sed -i -e "s/http:\/\/dburlhere\//http:////vanillawowdb.com\//i" {} \;
+	find ./ -type f -exec sed -i -e "s/http:\/\/DBURLHERE\//http:\/\/yourwebsitenamehere.com\//g" {} \;
 	
 	# You may have some comments that break the import process due to not being cleaned correctly before importing. If this occurs, fix the troublesome lines and then run the following before attempting to re-import them
 	find ./ -type f -exec sed -i -e "s/INSERT INTO/REPLACE INTO/i" {} \;
@@ -127,32 +127,32 @@
 	cd ~/aowow_comments/aowow_comments_dbvanilla/
 	
 	# Items
-	mysql -u root -p aowow < ./items/aowow_comments_items_ratings_sql_FINAL.sql
 	mysql -u root -p aowow < ./items/htmlfix/aowow_comments_items_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p aowow < ./items/aowow_comments_items_ratings_sql_FINAL.sql
 	mysql -u root -p realmd < ./items/aowow_comments_items_accounts_sql_FINAL.sql
 
 	# Item Sets
-	mysql -u root -p aowow < ./itemset/aowow_comments_itemset_comments_rating_sql_FINAL.sql
 	mysql -u root -p aowow < ./itemset/htmlfix/aowow_comments_itemset_comments_sql_FINAL.sql
+	mysql -u root -p aowow < ./itemset/aowow_comments_itemset_comments_rating_sql_FINAL.sql
 	mysql -u root -p realmd < ./itemset/aowow_comments_itemset_accounts_sql_FINAL.sql
 	
 	# NPCs
-	mysql -u root -p aowow < ./npc/aowow_comments_npc_ratings_sql_FINAL.sql
 	mysql -u root -p aowow < ./npc/htmfix/aowow_comments_npc_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p aowow < ./npc/aowow_comments_npc_ratings_sql_FINAL.sql
 	mysql -u root -p realmd < ./npc/aowow_comments_npc_accounts_sql_FINAL.sql
 
 	# Objects
-	mysql -u root -p aowow < ./object/aowow_comments_objects_ratings_sql_FINAL.sql
 	mysql -u root -p aowow < ./object/htmlfix/aowow_comments_objects_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p aowow < ./object/aowow_comments_objects_ratings_sql_FINAL.sql
 	mysql -u root -p realmd < ./object/aowow_comments_objects_accounts_sql_FINAL.sql
 
 	# Quests
-	mysql -u root -p aowow < ./quest/aowow_comments_quests_ratings_sql_FINAL.sql
 	mysql -u root -p aowow < ./quest/htmlfix/aowow_comments_quests_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p aowow < ./quest/aowow_comments_quests_ratings_sql_FINAL.sql
 	mysql -u root -p realmd < ./quest/aowow_comments_quests_accounts_sql_FINAL.sql
 
 	# Zones
-	mysql -u root -p aowow < ./zone/aowow_comments_zone_ratings_sql_FINAL.sql
 	mysql -u root -p aowow < ./zone/htmlfix/aowow_comments_zone_comments_HTMLFIX_sql_FINAL.sql
+	mysql -u root -p aowow < ./zone/aowow_comments_zone_ratings_sql_FINAL.sql
 	mysql -u root -p realmd < ./zone/aowow_comments_zone_accounts_sql_FINAL.sql
 	
