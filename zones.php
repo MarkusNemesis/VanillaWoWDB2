@@ -3,20 +3,30 @@
 // Необходима функция creatureinfo
 require_once('includes/allnpcs.php');
 
-$smarty->config_load($conf_file, 'npc');
+$smarty->config_load($conf_file, 'zones');
 
 @list($type) = extract_values($podrazdel);
 
 $cache_key = cache_key($type);
 
+echo $type;
+if ($type == 2) {$type2 = 2;}
+
 if(!$zones = load_cache(2, $cache_key))
 {
+
 	unset($zones);
 
 	$rows = $DB->select('
-		SELECT *, areatableID as area, name_loc0 as name FROM aowow_zones
+		SELECT *, areatableID as area, name_loc0 as name 
+		FROM aowow_zones
+			{WHERE
+			mapID = ?d}
+			{OR mapID > ?d}
 		{LIMIT ?d}
 		',
+		isset($type) ? $type : DBSIMPLE_SKIP,
+		isset($type2) ? $type2 : DBSIMPLE_SKIP,
 		($AoWoWconf['limit']!=0)? $AoWoWconf['limit']: DBSIMPLE_SKIP
 	);
 	$zones = array();
@@ -27,8 +37,7 @@ if(!$zones = load_cache(2, $cache_key))
 		}
 		$zones[] = $row;
 	}
-	//$zones = $rows;
-
+	
 	save_cache(5, $cache_key, $zones);
 }
 
@@ -40,7 +49,7 @@ $page = array(
 	'tab' => 0,
 	'type' => 0,
 	'typeid' => 0,
-//	'path' => path(0, 5, $type)
+	'path' => path(0, 6, $type)
 );
 $smarty->assign('page', $page);
 
