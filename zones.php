@@ -9,9 +9,6 @@ $smarty->config_load($conf_file, 'zones');
 
 $cache_key = cache_key($type);
 
-echo $type;
-if ($type == 2) {$type2 = 2;}
-
 if(!$zones = load_cache(2, $cache_key))
 {
 
@@ -26,7 +23,7 @@ if(!$zones = load_cache(2, $cache_key))
 		{LIMIT ?d}
 		',
 		isset($type) ? $type : DBSIMPLE_SKIP,
-		isset($type2) ? $type2 : DBSIMPLE_SKIP,
+		(isset($type)&&$type==2) ? $type : DBSIMPLE_SKIP,
 		($AoWoWconf['limit']!=0)? $AoWoWconf['limit']: DBSIMPLE_SKIP
 	);
 	$zones = array();
