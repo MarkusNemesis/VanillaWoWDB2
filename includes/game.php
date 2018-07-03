@@ -309,7 +309,9 @@ function transform_point($at, $point)
 	$result['x'] = round(100 - ($point['y']-$at['y_min']) / (($at['y_max']-$at['y_min']) / 100), 2);
 	$result['y'] = round(100 - ($point['x']-$at['x_min']) / (($at['x_max']-$at['x_min']) / 100), 2);
 	$result['r'] = sec_to_time($point['spawntimesecsmin']);
+	$result['rmax'] = sec_to_time($point['spawntimesecsmax']);
 	unset($result['spawntimesecsmin']);
+	unset($result['spawntimesecsmax']);
 
 	return $result;
 }
@@ -668,7 +670,7 @@ function resolve_coord(&$data) {
         if (isset($ndata['spawntimesecsmin']))
         {
             $coord_tozone =  coord_tozone($ndata['m'], $ndata['x'], $ndata['y'], false) ?: array();
-            $tmp = array_merge($coord_tozone, array('r' => sec_to_time($ndata['spawntimesecs'])));
+            $tmp = array_merge($coord_tozone, array('r' => sec_to_time($ndata['spawntimesecsmin'])));
         }
         // else
         // {

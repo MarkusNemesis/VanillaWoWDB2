@@ -74,7 +74,10 @@
 																{#Respawn#}:
 																{if isset($point.r.h)} {$point.r.h}{#hr#}{/if}
 																{if isset($point.r.m)} {$point.r.m}{#min#}{/if}
-																{if isset($point.r.s)} {$point.r.s}{#sec#}{/if}
+																{if isset($point.r.s)} {$point.r.s}{#sec#}{/if} -
+																{if isset($point.rmax.h)} {$point.rmax.h}{#hr#}{/if}
+																{if isset($point.rmax.m)} {$point.rmax.m}{#min#}{/if}
+																{if isset($point.rmax.s)} {$point.rmax.s}{#sec#}{/if}
 															{else}
 																{#Waypoint#}
 															{/if}
