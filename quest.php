@@ -501,7 +501,7 @@ if(!$quest = load_cache(10, $cache_key))
 	// Награды и благодарности, присылаемые почтой
 	if ($quest['RewMailTemplateId'])
 	{
-		if(!($quest['mailrewards'] = loot('quest_mail_loot_template', $quest['entry'])))
+		if(!($quest['mailrewards'] = loot('mail_loot_template', $quest['entry'])))
 			unset ($quest['mailrewards']);
 	}
 	if ($quest['RewMailDelaySecs'])
