@@ -57,6 +57,18 @@ if(!$npc = load_cache(1, $cache_key))
         $npc['mindmg'] = ($row['mindmg'] /* + $row['attackpower'] */) * $row['dmg_multiplier'];
         $npc['maxdmg'] = ($row['maxdmg'] /* + $row['attackpower'] */) * $row['dmg_multiplier'];
 		
+		# Get NPC Attack speed
+		$npc['attackspeed'] = number_format(($row['baseattacktime']/1000),2);
+		$npc['dps'] = number_format((($npc['mindmg']+$npc['maxdmg'])/2)/$npc['attackspeed'],2);
+		
+		# NPC Resistances		
+		$npc['resistance1'] = $row['resistance1'];
+		$npc['resistance2'] = $row['resistance2'];
+		$npc['resistance3'] = $row['resistance3'];
+		$npc['resistance4'] = $row['resistance4'];
+		$npc['resistance5'] = $row['resistance5'];
+		$npc['resistance6'] = $row['resistance6'];
+		
 		$toDiv = array('minhealth', 'maxmana', 'minmana', 'maxhealth', 'armor', 'mindmg', 'maxdmg');
 		// Разделяем на тысячи (ххххххххх => ххх,ххх,ххх)
 		foreach($toDiv as $e)
