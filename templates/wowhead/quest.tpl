@@ -368,7 +368,7 @@
 						<table class="icontab">
 						<tr>
 {section name=j loop=$quest.itemchoices}
-								<th id="icontab-icon{$smarty.section.j.index+1}"></th>
+								<th id="icontab-icon{$smarty.section.j.index}"></th>
 								<td>
 									<span class="q{$quest.itemchoices[j].quality}">
 										<a href="?item={$quest.itemchoices[j].entry}">
@@ -381,7 +381,7 @@
 						</table>
 						<script type="text/javascript">
 						{section name=j loop=$quest.itemchoices}
-							ge('icontab-icon{$smarty.section.j.index+1}').appendChild(g_items.createIcon({$quest.itemchoices[j].entry}, 1, {$quest.itemchoices[j].count}));
+							ge('icontab-icon{$smarty.section.j.index}').appendChild(g_items.createIcon({$quest.itemchoices[j].entry}, 1, {$quest.itemchoices[j].count}));
 						{/section}
 						</script>
 {/if}
@@ -393,7 +393,7 @@
 						<table class="icontab">
 						<tr>{strip}
 {section name=j loop=$quest.itemrewards}
-								<th id="icontab-icon{$smarty.section.j.index+1}"></th>
+								<th id="icontab-icon{$smarty.section.j.index+4}"></th>
 								<td>
 									<span class="q{$quest.itemrewards[j].quality}">
 										<a href="?item={$quest.itemrewards[j].entry}">
@@ -406,7 +406,7 @@
 						</table>
 						<script type="text/javascript">
 						{section name=j loop=$quest.itemrewards}
-							ge('icontab-icon{$smarty.section.j.index+1}').appendChild(g_items.createIcon({$quest.itemrewards[j].entry}, 1, {$quest.itemrewards[j].count}));
+							ge('icontab-icon{$smarty.section.j.index+4}').appendChild(g_items.createIcon({$quest.itemrewards[j].entry}, 1, {$quest.itemrewards[j].count}));
 						{/section}
 						</script>
 {/if}
