@@ -7,6 +7,7 @@ require_once('includes/allitems.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allobjects.php');
 require_once('includes/allcomments.php');
+require_once('includes/allcommentsalkz.php');
 
 // Загружаем файл перевода для smarty
 $smarty->config_load($conf_file, 'item');
