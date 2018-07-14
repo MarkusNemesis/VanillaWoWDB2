@@ -24,7 +24,7 @@ function getcommentsalkz($type, $typeid) {
 
     $rows = $DB->select('
 		SELECT id, userid, post_date, commentbody, replyto
-		FROM ?_aowow_comments_alkz
+		FROM ?_comments_alkz
 		WHERE type=? AND typeid=?
 		ORDER BY replyto, post_date
 		', $type, $typeid
@@ -46,7 +46,7 @@ function getcommentsalkz($type, $typeid) {
             $commentsalkz[$i]['indent'] = 1;
 
         $commentsalkz[$i]['raters'] = array();
-        $commentsalkz[$i]['raters'] = $DB->select('SELECT userid, rate FROM ?_aowow_comments_rates_alkz WHERE commentid=?d', $commentsalkz[$i]['id']);
+        $commentsalkz[$i]['raters'] = $DB->select('SELECT userid, rate FROM ?_comments_rates_alkz WHERE commentid=?d', $commentsalkz[$i]['id']);
         $commentsalkz[$i]['rating'] = sum_subarrays_by_key($commentsalkz[$i]['raters'], 'rate');
         $commentsalkz[$i]['purged'] = ($commentsalkz[$i]['rating'] <= -50) ? 1 : 0;
         $commentsalkz[$i]['deleted'] = 0;
