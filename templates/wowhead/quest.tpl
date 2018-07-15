@@ -34,8 +34,8 @@
 									{if isset($quest.LimitTime.s)} {$quest.LimitTime.s} {#sec#}{/if}
 								</div></li>
 							{/if}{/strip}
-							{if isset($quest.start)}<li><div>{#Start#}: {section loop=$quest.start name=i}{if $quest.start[i].side}<span class="{$quest.start[i].side}-icon">{/if}<a href="?{$quest.start[i].type}={$quest.start[i].entry}"{if $quest.start[i].type == 'item'} class="icontiny q{$quest.start[i].quality}" style="background-image: url(images/icons/tiny/{$quest.start[i].iconname}.gif);"{/if}>{$quest.start[i].name}</a>{if $quest.start[i].side}</span>{/if}{if $smarty.section.i.last}{else}, <br><span style="visibility: hidden;">{#Start#}: </span>{/if}{/section}</div></li>{/if}
-							{if isset($quest.end)}<li><div>{#End#}: {section loop=$quest.end name=i}{if $quest.end[i].side}<span class="{$quest.start[i].side}-icon">{/if}<a href="?{$quest.end[i].type}={$quest.end[i].entry}">{$quest.end[i].name}</a>{if $quest.end[i].side}</span>{/if}{if $smarty.section.i.last}{else}, <br><span style="visibility: hidden;">{#End#}: </span>{/if}{/section}</div></li>{/if}
+							{if isset($quest.start)}<li><div><img src="/images/icons/small/quest_start.gif">{#Start#}: {section loop=$quest.start name=i}{if $quest.start[i].side}<span class="{$quest.start[i].side}-icon">{/if}<a href="?{$quest.start[i].type}={$quest.start[i].entry}"{if $quest.start[i].type == 'item'} class="icontiny q{$quest.start[i].quality}" style="background-image: url(images/icons/tiny/{$quest.start[i].iconname}.gif);"{/if}>{$quest.start[i].name}</a>{if $quest.start[i].side}</span>{/if}{if $smarty.section.i.last}{else}, <br><span style="visibility: hidden;">{#Start#}: </span>{/if}{/section}</div></li>{/if}
+							{if isset($quest.end)}<li><div><img src="/images/icons/small/quest_end.gif">{#End#}: {section loop=$quest.end name=i}{if $quest.end[i].side}<span class="{$quest.start[i].side}-icon">{/if}<a href="?{$quest.end[i].type}={$quest.end[i].entry}">{$quest.end[i].name}</a>{if $quest.end[i].side}</span>{/if}{if $smarty.section.i.last}{else}, <br><span style="visibility: hidden;">{#End#}: </span>{/if}{/section}</div></li>{/if}
 							{if isset($quest.reqskill)}<li><div>{#Skill#}: {$quest.reqskill.name} ({$quest.reqskill.value})</div></li>{/if}
 							{if isset($quest.reqclass)}<li><div>{#Class#}: {$quest.reqclass}</div></li>{/if}
 							{if isset($quest.Sharable)}<li><div>{#Sharable#}</div></li>{/if}
@@ -368,7 +368,7 @@
 						<table class="icontab">
 						<tr>
 {section name=j loop=$quest.itemchoices}
-								<th id="icontab-icon{$smarty.section.j.index+1}"></th>
+								<th id="icontab-icon{$smarty.section.j.index}"></th>
 								<td>
 									<span class="q{$quest.itemchoices[j].quality}">
 										<a href="?item={$quest.itemchoices[j].entry}">
@@ -381,7 +381,7 @@
 						</table>
 						<script type="text/javascript">
 						{section name=j loop=$quest.itemchoices}
-							ge('icontab-icon{$smarty.section.j.index+1}').appendChild(g_items.createIcon({$quest.itemchoices[j].entry}, 1, {$quest.itemchoices[j].count}));
+							ge('icontab-icon{$smarty.section.j.index}').appendChild(g_items.createIcon({$quest.itemchoices[j].entry}, 1, {$quest.itemchoices[j].count}));
 						{/section}
 						</script>
 {/if}
@@ -393,7 +393,7 @@
 						<table class="icontab">
 						<tr>{strip}
 {section name=j loop=$quest.itemrewards}
-								<th id="icontab-icon{$smarty.section.j.index+1}"></th>
+								<th id="icontab-icon{$smarty.section.j.index+4}"></th>
 								<td>
 									<span class="q{$quest.itemrewards[j].quality}">
 										<a href="?item={$quest.itemrewards[j].entry}">
@@ -406,7 +406,7 @@
 						</table>
 						<script type="text/javascript">
 						{section name=j loop=$quest.itemrewards}
-							ge('icontab-icon{$smarty.section.j.index+1}').appendChild(g_items.createIcon({$quest.itemrewards[j].entry}, 1, {$quest.itemrewards[j].count}));
+							ge('icontab-icon{$smarty.section.j.index+4}').appendChild(g_items.createIcon({$quest.itemrewards[j].entry}, 1, {$quest.itemrewards[j].count}));
 						{/section}
 						</script>
 {/if}
