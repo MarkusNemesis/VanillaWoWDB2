@@ -27,12 +27,19 @@ if(!$items = load_cache(7, $cache_key))
 		) AS p
 		INNER JOIN item_template AS i ON i.entry = p.entry AND i.patch = p.patch
 		LEFT JOIN ?_icons c ON c.id = i.displayid
+		WHERE 1 = 1
+			{ AND class = ? }
+			{ AND subclass = ? }
+			{ AND InventoryType = ? }
 		ORDER BY quality DESC, name
 		{ LIMIT ?d }
 		',
 		($_SESSION['locale'])? $_SESSION['locale']: DBSIMPLE_SKIP,
 		$AoWoWconf['patch'],
 		($_SESSION['locale'])? 1: DBSIMPLE_SKIP,
+		isset($class) ? $class : DBSIMPLE_SKIP,
+		isset($subclass) ? $subclass : DBSIMPLE_SKIP,
+		isset($type) ? $type : DBSIMPLE_SKIP,
 		($AoWoWconf['limit']!=0)? $AoWoWconf['limit']: DBSIMPLE_SKIP
 	);
 	//$rows = sanitiseitemrows($rows);
