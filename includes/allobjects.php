@@ -405,18 +405,13 @@ function objectinfo2(&$Row, $level=0)
 							$object['key'] = array();
 							global $AoWoWconf;
 							$object['key'] = $DB->selectRow('
-							SELECT a.* FROM 
-							(
+								
 								SELECT entry as id, name, quality, entry, patch FROM item_template 
 									WHERE entry=?d 
-							) a
-							INNER JOIN (
-								SELECT *, MAX(patch) patchno
-								FROM item_template
-								WHERE patch <= ?d
-								GROUP BY entry
-							) b ON a.entry = b.entry AND a.patch = b.patchno
+									AND patch <= ?d
+									ORDER BY patch DESC
 									LIMIT 1
+
 								', $lock_row['lockproperties'.$j],
 								$AoWoWconf['patch']
 								);
