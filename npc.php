@@ -4,6 +4,8 @@ require_once('includes/allspells.php');
 require_once('includes/allquests.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allcomments.php');
+require_once('includes/allcommentswh.php');
+require_once('includes/allcommentsalkz.php');
 
 // Настраиваем Smarty ;)
 $smarty->config_load($conf_file, 'npc');
@@ -326,6 +328,8 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('commentswh', getcommentswh($page['type'], $page['typeid']));
+$smarty->assign('commentsalkz', getcommentsalkz($page['type'], $page['typeid']));
 
 // Если хоть одна информация о вещи найдена - передаём массив с информацией о вещях шаблонизатору
 $smarty->assign('allitems', $allitems);

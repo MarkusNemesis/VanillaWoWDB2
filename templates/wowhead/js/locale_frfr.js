@@ -1237,6 +1237,8 @@ var LANG = {
 	tab_cancontain: "Peut contenir",
 	tab_characters: "Characters",
 	tab_comments: "Commentaires",
+	tab_commentswh: "WH Commentaires",
+	tab_commentsalkz: "AK Commentaires",
 	tab_containedin: "Contenu dans",
 	tab_contains: "Contient",
 	tab_createdby: "Cree par",

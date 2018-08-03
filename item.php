@@ -7,6 +7,7 @@ require_once('includes/allitems.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allobjects.php');
 require_once('includes/allcomments.php');
+require_once('includes/allcommentswh.php');
 require_once('includes/allcommentsalkz.php');
 
 // Загружаем файл перевода для smarty
@@ -518,6 +519,7 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('commentswh', getcommentswh($page['type'], $page['typeid']));
 $smarty->assign('commentsalkz', getcommentsalkz($page['type'], $page['typeid']));
 
 // Количество MySQL запросов

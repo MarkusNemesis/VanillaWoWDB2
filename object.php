@@ -3,6 +3,7 @@
 require_once('includes/allobjects.php');
 require_once('includes/allitems.php');
 require_once('includes/allcomments.php');
+require_once('includes/allitemswh.php');
 require_once('includes/allquests.php');
 
 $smarty->config_load($conf_file, 'object');
@@ -79,6 +80,7 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('commentswh', getcommentswh($page['type'], $page['typeid']));
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());
