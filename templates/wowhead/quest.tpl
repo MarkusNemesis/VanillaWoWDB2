@@ -7,6 +7,8 @@
 			<div id="main-contents" class="main-contents">
 				<script type="text/javascript">
 					{include file='bricks/allcomments.tpl'}
+					{include file='bricks/allcommentswh.tpl'}
+					{include file='bricks/allcommentsalkz.tpl'}
 					var g_pageInfo = {ldelim}type: 5, typeId: {$quest.entry}, name: '{$quest.Title|escape:"quotes"}'{rdelim};
 					g_initPath([0,3,{$quest.maincat},{$quest.category}]);
 				</script>
@@ -502,6 +504,8 @@
 				{if isset($quest.mailrewards)}{include file='bricks/item_table.tpl' id='mail-rewards' tabsid='tabsRelated' data=$quest.mailrewards name='questrewards'}{/if}
 				{if isset($quest.criteria_of)}{include	file='bricks/achievement_table.tpl'	id='criteria-of'	tabsid='tabsRelated'	data=$quest.criteria_of	name='criteriaof'}{/if}
 				new Listview({ldelim}template: 'comment', id: 'comments', name: LANG.tab_comments, tabs: tabsRelated, parent: 'listview-generic', data: lv_comments{rdelim});
+				new Listview({ldelim}template: 'comment', id: 'commentswh', name: LANG.tab_commentswh, tabs: tabsRelated, parent: 'listview-generic', data: lv_commentswh{rdelim});
+				new Listview({ldelim}template: 'comment', id: 'commentsalkz', name: LANG.tab_commentsalkz, tabs: tabsRelated, parent: 'listview-generic', data: lv_commentsalkz{rdelim});
 				tabsRelated.flush();
 			</script>
 

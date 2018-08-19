@@ -3,6 +3,7 @@
 require_once('includes/game.php');
 require_once('includes/allitems.php');
 require_once('includes/allcomments.php');
+require_once('includes/allcommentswh.php');
 //require_once('includes/allscreenshots.php');
 $smarty->config_load($conf_file, 'zone');
 
@@ -214,6 +215,7 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
+$smarty->assign('commentswh', getcommentswh($page['type'], $page['typeid']));
 
 // Количество MySQL запросов
 $smarty->assign('mysql', $DB->getStatistics());

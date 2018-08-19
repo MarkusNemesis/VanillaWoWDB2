@@ -6,6 +6,8 @@ require_once('includes/allobjects.php');
 require_once('includes/allnpcs.php');
 require_once('includes/allitems.php');
 require_once('includes/allcomments.php');
+require_once('includes/allcommentswh.php');
+require_once('includes/allcommentsalkz.php');
 
 $smarty->config_load($conf_file, 'quest');
 
@@ -524,7 +526,8 @@ $smarty->assign('page', $page);
 
 // Комментарии
 $smarty->assign('comments', getcomments($page['type'], $page['typeid']));
-
+$smarty->assign('commentswh', getcommentswh($page['type'], $page['typeid']));
+$smarty->assign('commentsalkz', getcommentsalkz($page['type'], $page['typeid']));
 // Данные о квесте
 $smarty->assign('quest', $quest);
 // Если хоть одна информация о вещи найдена - передаём массив с информацией о вещях шаблонизатору
