@@ -115,7 +115,7 @@
 	git clone https://github.com/Sunksat/aowow_comments
 	
 	# You'll need to modify the accounts SQL files to fit the realmd we are using. You can do this with a find/replace via sed
-	find ./aowow_comments/ -type f -exec sed -i -e "s/'changepass1234', '0', null, null, null, '', '', null, '2004-11-23 21:10:00', '0.0.0.0', '127.0.0.1', '127.0.0.1', '0', '0', '00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '0', '0', '', '', '0', '', '0', '0', '0', '0', '', '0', null, null, '0', null, null, '0', null, null)/'REPLACEWITHGIBBERISH',0,NULL,NULL,NULL,NULL,'2004-11-23 21:10:00','0.0.0.0',0,0,'0000-00-00 00:00:00',0,0,0,0,NULL,0)/i" {} \;
+	find ./ -type f -exec sed -i -e "s/changepass1234/RANDOMGIBBERISH/i" {} \;
 	
 	# You will need to convert the links inside the comments to point to your database. To do so, run the following as you did before. Note: You'll need to ESCAPE out the slashes in this string. Use this site to help you: http://dwaves.de/tools/escape/
 	find ./ -type f -exec sed -i -e "s/http:\/\/DBURLHERE\//http:\/\/yourwebsitenamehere.com\//g" {} \;
@@ -125,6 +125,14 @@
 	
 	# You will need to import each type separately by running the following. 
 	cd ~/aowow_comments/aowow_comments_dbvanilla/
+	
+	# WoWHead Comments
+	cd ./aowow_comments_dbvanilla
+	
+	# Create tables
+	mysql -u root -p aowow < aowow_comments_wh.sql
+	mysql -u root -p aowow < aowow_comments_rates_wh.sql
+	mysql -u root -p realmd < aowow_comments_account_wh.sql
 	
 	# Items
 	mysql -u root -p aowow < ./items/htmlfix/aowow_comments_items_comments_HTMLFIX_sql_FINAL.sql
@@ -156,3 +164,26 @@
 	mysql -u root -p aowow < ./zone/aowow_comments_zone_ratings_sql_FINAL.sql
 	mysql -u root -p realmd < ./zone/aowow_comments_zone_accounts_sql_FINAL.sql
 	
+	# Allakhazam Comments:
+	cd ..
+	cd ./aowow_allakhazam_comments
+	
+	# Create tables
+	mysql -u root -p aowow < aowow_comments_alkz.sql
+	mysql -u root -p aowow < aowow_comments_rates_alkz.sql
+	mysql -u root -p realmd < aowow_comments_account_alkz.sql
+	
+	# Items
+	mysql -u root -p aowow < ./items/item_comments_allakhazam.sql
+	mysql -u root -p aowow < ./items/item_comments_ratings_allakhazam.sql
+	mysql -u root -p realmd < ./items/item_account_allakhazam.sql
+	
+	# NPCs
+	mysql -u root -p aowow < ./items/npc_comments_allakhazam.sql
+	mysql -u root -p aowow < ./items/npc_comments_ratings_allakhazam.sql
+	mysql -u root -p realmd < ./items/npc_account_allakhazam.sql
+	
+	# Quests
+	mysql -u root -p aowow < ./items/quest_comments_allakhazam.sql
+	mysql -u root -p aowow < ./items/quest_comments_ratings_allakhazam.sql
+	mysql -u root -p realmd < ./items/quest_account_allakhazam.sql
